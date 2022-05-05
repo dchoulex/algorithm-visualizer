@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    height: 100vh;
 }
 
 body {
@@ -80,7 +81,7 @@ a {
 
 /* carousel modal */
 .overlay {
-    position: absolute;
+    position: fixed;
     display: flex;
     top: 0;
     left: 0;
@@ -166,10 +167,21 @@ a {
     font-size: 1rem;
 }
 
-.choose-algorithm-btn {
+#choose-algorithm-btn {
     border-color: #06375A;
+}
+
+#choose-algorithm-btn-text {
+    width: 150px;
+}
+
+.choose-algorithm-inner {
     background-color: #fff;
-    margin: auto 1rem;
+}
+
+.dropdown-item:focus {
+    background-color: #c3d1f1;
+    color: #000;
 }
 
 .btn:focus {
@@ -199,6 +211,11 @@ a {
     color: #fff;
 }
 
+#medium-speed-btn {
+    background-color: #525252;
+    color: #fff;
+}
+
 .slider-container {
     margin-right: 1rem;
 }
@@ -219,7 +236,7 @@ a {
 
 .slider:hover {
     opacity: 1;
-    background: grey;
+    background: #fff;
 }
 
 .slider::-webkit-slider-thumb {
@@ -236,11 +253,63 @@ a {
     margin-left: 1rem;
 }
 
-.sort-btn {
+#sort-btn {
     float: right;
     margin-left: 4rem;
 }
 
-.btn-light {
-    border-color: #B2B2B2;
+#sort-btn:hover {
+    background-color: #525252;
+    color: #fff;
 }
+
+.btn-light {
+    border-color: #06375A;
+}
+
+/* Bar graph */
+#algorithm-visualizer-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    min-height: 510px;
+    width: 100%;
+    margin: 0;
+}
+
+/* @media (min-height: 690px) {
+    #algorithm-visualizer-container {
+
+    }
+} */
+
+.bar-graph-container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    width: 95%;
+    margin: 0;
+}
+
+.bar-graph {
+    background-color: #000;
+    margin: auto 1px 0px 1px;
+    width: 8px;
+}
+
+/* Algorithm page footer */
+.algorithm-footer {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+/* @media (min-height: 690px) {
+    .algorithm-footer {
+        position: absolute;
+        bottom: 0;
+    }
+} */
