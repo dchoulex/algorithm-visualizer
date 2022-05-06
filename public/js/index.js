@@ -1,9 +1,13 @@
 const closeModalButton = document.querySelector(".close-modal");
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
-const dropdownItemButtons = document.querySelectorAll(".dropdown-item");
+const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
+const algorithmSelectorButtons = document.querySelectorAll(".dropdown-item");
 const dataRangeSlider = document.getElementById("data-range-slider");
 const speedButtons = document.querySelectorAll(".speed-btn");
 const sortButton = document.getElementById("sort-btn");
+const restartButton = document.getElementById("restart-btn");
+const errorMessage = document.getElementById("error-message");
+const errorMessageCloseButton = document.getElementById("error-message-close-btn");
 
 // close modal 
 function closeModal(event) {
@@ -323,8 +327,6 @@ class HeapSort extends SortingAlgorithm {
     async sort() {
         await this.buildMaxHeap(this.barGraphElements);
 
-        await this.heapWait();
-
         this.revertAllBack();
 
         for (let endIdx = this.barGraphElements.length - 1; endIdx > 0; endIdx--) {
@@ -357,9 +359,9 @@ class HeapSort extends SortingAlgorithm {
             this.revertBack(currentIdx, barGraphElements.length - 1);
         }
 
-        for (const barGraphElement of barGraphElements) {
-            barGraphElement.style.backgroundColor = "#7B20F7";
-        }
+        this.showHeap();
+
+        await this.heapWait();
     }
 
     async siftDown(currentIdx, endIdx, heap) {
@@ -406,6 +408,12 @@ class HeapSort extends SortingAlgorithm {
                 resolve();
             }, 500)
         )
+    }
+
+    showHeap() {
+        for (const barGraphElement of this.barGraphElements) {
+            barGraphElement.style.backgroundColor = "#FF7F50";
+        }
     }
 }
 
@@ -732,9 +740,10 @@ if (dataRangeSlider) {
     });
 };
 
-if (dropdownItemButtons) {
-    dropdownItemButtons.forEach(button => {
+if (algorithmSelectorButtons) {
+    algorithmSelectorButtons.forEach(button => {
         button.addEventListener("click", () => {
+            if (errorMessage.classList.contains("show")) errorMessage.classList.toggle("show");
             const algorithmChose = button.textContent;
             chooseAlgorithmButtonText.innerText = algorithmChose;
         })
@@ -743,19 +752,85 @@ if (dropdownItemButtons) {
 
 if (sortButton) {
     sortButton.addEventListener("click", () => {
-        // const bubbleSort = new BubbleSort(barGraph.barGraphElements, delay);
-        // bubbleSort.sort();
-        // const insertionSort = new InsertionSort(barGraph.barGraphElements, delay);
-        // insertionSort.sort();
-        // const selectionSort = new SelectionSort(barGraph.barGraphElements, delay);
-        // selectionSort.sort();
-        // const heapSort = new HeapSort(barGraph.barGraphElements, delay);
-        // heapSort.sort();
-        const radixSort = new RadixSort(barGraph, delay);
-        radixSort.sort();
-        // const quickSort = new QuickSort(barGraph, delay);
-        // quickSort.sort();
-        // const mergeSort = new MergeSort(barGraph, delay);
-        // mergeSort.sort();
+        const algorithmChose = chooseAlgorithmButtonText.innerText;
+
+        switch (algorithmChose) {
+            case "Choose algorithm":
+                if (errorMessage.classList.contains("show")) break;
+
+                errorMessage.classList.toggle("show");
+
+                break;
+
+            case "Bubble sort":
+                const bubbleSort = new BubbleSort(barGraph.barGraphElements, delay);
+
+                bubbleSort.sort();
+
+                break;
+            
+            case "Insertion sort":
+                const insertionSort = new InsertionSort(barGraph.barGraphElements, delay);
+
+                insertionSort.sort();
+
+                break;
+
+            case "Selection sort":
+                const selectionSort = new SelectionSort(barGraph.barGraphElements, delay);
+
+                selectionSort.sort();
+
+                break;
+
+            case "Heap sort":
+                const heapSort = new HeapSort(barGraph.barGraphElements, delay);
+
+                heapSort.sort();
+
+                break;
+
+            case "Radix sort":
+                const radixSort = new RadixSort(barGraph, delay);
+
+                radixSort.sort();
+
+                break;
+
+            case "Quick sort":
+                const quickSort = new QuickSort(barGraph, delay);
+
+                quickSort.sort();
+
+                break;
+
+            case "Merge sort":
+                const mergeSort = new MergeSort(barGraph, delay);
+
+                mergeSort.sort();
+
+                break;
+        }
+
+        if (algorithmChose === "Choose algorithm") return;
+
+        chooseAlgorithmButton.disabled = true;
+        chooseAlgorithmButtonText.disabled = true;
+        dataRangeSlider.disabled = true;
+
+        sortButton.classList.toggle("hidden");
+        restartButton.classList.toggle("hidden");
+    })
+};
+
+if (restartButton) {
+    restartButton.addEventListener("click", () => {
+        location.reload();
+    })
+}
+
+if (errorMessageCloseButton) {
+    errorMessageCloseButton.addEventListener("click", () => {
+        errorMessage.classList.toggle("show");
     })
 }
