@@ -167,7 +167,7 @@ a {
     font-size: 1rem;
 }
 
-#choose-algorithm-btn {
+#choose-algorithm-btn-group {
     border-color: #06375A;
 }
 
@@ -263,8 +263,22 @@ a {
     color: #fff;
 }
 
+#restart-btn {
+    float: right;
+    margin-left: 4rem;
+}
+
+#restart-btn:hover {
+    background-color: #525252;
+    color: #fff;
+}
+
 .btn-light {
     border-color: #06375A;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Bar graph */

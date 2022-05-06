@@ -33,9 +33,9 @@
       
       <div class="widget-bar">
         <nav class="btn-group my-2 my-md-0 mr-md-3">
-          <div class="btn-group" id="choose-algorithm-btn">
+          <div class="btn-group" id="choose-algorithm-btn-group">
             <button type="button" class="btn btn-outline-dark choose-algorithm-inner" id="choose-algorithm-btn-text">Choose algorithm</button>
-            <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split choose-algorithm-inner" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split choose-algorithm-inner" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="choose-algorithm-btn">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
@@ -63,9 +63,17 @@
         </div>
 
         <button class="btn btn-light" id="sort-btn">Let's sort!</button>
+        <button class="btn btn-light hidden" id="restart-btn">Restart</button>
       </div>
     </div>
   </header>
+
+  <div class="alert alert-warning alert-dismissible fade" role="alert" id="error-message">
+    <strong>Please choose one algorithm!</strong> You can choose an algorithm from the dropdown button above.
+    <button type="button" class="close" aria-label="Close" id="error-message-close-btn">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
   <section class="container-fluid" id="algorithm-visualizer-container">
     <div class="bar-graph-container" id="bar-graph-container">
