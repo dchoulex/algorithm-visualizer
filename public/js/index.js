@@ -108,8 +108,19 @@ class SortingAlgorithm {
         this.delay = delay;
     }
 
-    getBarHeightFromElement(i) {
-        return parseInt(this.barGraphElements[i].style.height)
+    getBarHeightFromElement(i, array = this.barGraphElements) {
+        return parseInt(array[i].style.height)
+    }
+
+    getArrayOfHeightsFromElements() {
+        const arrayOfHeights = [];
+
+        for (const barGraphElement of this.barGraphElements) {
+            const height = parseInt(barGraphElement.style.height);
+            arrayOfHeights.push(height);
+        }
+
+        return arrayOfHeights;
     }
 
     compare(i, j) {
@@ -126,9 +137,9 @@ class SortingAlgorithm {
         this.barGraphElements[j].style.height = temp;
     }
 
-    revertBack(i, j) {
-        this.barGraphElements[i].style.backgroundColor = "black";
-        this.barGraphElements[j].style.backgroundColor = "black";
+    revertBack(i, j, color = "black") {
+        this.barGraphElements[i].style.backgroundColor = color;
+        this.barGraphElements[j].style.backgroundColor = color;
     }
 
     revertAllBack() {
@@ -147,10 +158,30 @@ class SortingAlgorithm {
         }
     }
 
-    tentativelySort(j) {
-        for (let i = 0; i < j; i++) {
+    tentativelySort(idx) {
+        this.barGraphElements[idx].style.backgroundColor = "#E2EDF9";
+    }
+
+    tentativelySortAtRange(startIdx, endIdx) {
+        for (let i = startIdx; i < endIdx; i++) {
             this.barGraphElements[i].style.backgroundColor = "#E2EDF9";
         }
+    }
+
+    showPivot(idx) {
+        this.barGraphElements[idx].style.backgroundColor = "#DC143C";
+    }
+
+    count(idx) {
+        this.barGraphElements[idx].style.backgroundColor = "#23AC7C";       
+    }
+    
+    merge(idx) {
+        this.barGraphElements[idx].style.backgroundColor = "#842BFD";
+    }
+    
+    replace(idx) {
+        this.barGraphElements[idx].style.backgroundColor = "#F365E2";
     }
 
     async wait(delay) {
@@ -219,6 +250,12 @@ class InsertionSort extends SortingAlgorithm {
             while (j > 0 && this.getBarHeightFromElement(j) < this.getBarHeightFromElement(j - 1)) {
                 this.swap(j, j - 1);
                 
+                await this.wait(delay);
+                
+                this.revertBack(j, j - 1, "#E2EDF9");
+
+                await this.wait(delay);
+
                 j--;
             }
 
@@ -372,6 +409,308 @@ class HeapSort extends SortingAlgorithm {
     }
 }
 
+class RadixSort extends SortingAlgorithm {
+    constructor(barGraph, delay = MEDIUM_SPEED_DELAY) {
+        super(delay);
+        this.barGraphElements = barGraph.barGraphElements;
+        this.barHeights = barGraph.barHeights;
+    } 
+    
+    async sort() {
+        if (this.barGraphElements.length === 0) return this.barGraphElements;
+
+        let maxNumber = this.barHeights.reduce((maxHeight, height) => {
+            maxHeight = maxHeight > height ? maxHeight : height;
+            return maxHeight;
+        }, 0);
+
+        let digit = 0;
+
+        while (maxNumber / (10 ** digit) >= 1) {
+            await this.countingSort(this.barGraphElements, digit);
+
+            digit++;
+        }
+
+        this.finishSort();
+
+        return this.barGraphElements;
+    }
+
+    async countingSort(barGraphElements, digit) {
+        const sortedHeights = new Array(barGraphElements.length).fill(0);
+        const countArray = new Array(10).fill(0);
+
+        const digitColumn = 10 ** digit;
+
+        for (let i = 0; i < barGraphElements.length; i++) {
+            const height = this.getBarHeightFromElement(i);
+
+            const countIdx = Math.floor(height / digitColumn) % 10;
+
+            this.count(i);
+
+            await this.wait(delay);
+
+            countArray[countIdx]++;
+        }
+
+        for (let i = 1; i < 10; i++) {
+            countArray[i] += countArray[i - 1]
+        }
+
+        for (let i = barGraphElements.length - 1; i >= 0; i--) {
+            const height = this.getBarHeightFromElement(i);
+            const countIdx = Math.floor(height / digitColumn) % 10;
+            countArray[countIdx]--;
+
+            const sortedIdx = countArray[countIdx];
+            sortedHeights[sortedIdx] = height;
+        }
+
+        for (let i = 0; i < barGraphElements.length; i++) {
+            barGraphElements[i].style.height = `${sortedHeights[i]}px`;
+            
+            this.replace(i);
+
+            await this.wait(delay);
+
+            this.revertBack(i, i);
+
+            await this.wait(delay);
+        }
+    }
+}
+
+class QuickSort extends SortingAlgorithm {
+    constructor(barGraph, delay = MEDIUM_SPEED_DELAY) {
+        super(delay);
+        this.barHeights = barGraph.barHeights;
+        this.barGraphElements = barGraph.barGraphElements;
+    }
+
+    async sort() {
+        const sortedHeights = this.barHeights.sort((a, b) => a - b);
+
+        await this.quickSortHelper(0, this.barGraphElements.length - 1, this.barGraphElements, sortedHeights);
+
+        await this.wait(delay);
+
+        return this.barGraphElements;
+    }
+
+    async quickSortHelper(startIdx, endIdx, barGraphElements, sortedHeights) {
+        if (startIdx >= endIdx) return;
+
+        const pivotIdx = startIdx;
+        let leftIdx = pivotIdx + 1;
+        let rightIdx = endIdx;
+
+        this.showPivot(pivotIdx);
+
+        await this.wait(delay);
+
+        while (leftIdx <= rightIdx) {
+            const leftIdxBarHeight = this.getBarHeightFromElement(leftIdx);
+            const rightIdxBarHeight = this.getBarHeightFromElement(rightIdx);
+            const pivotIdxBarHeight = this.getBarHeightFromElement(pivotIdx);
+
+            this.compare(leftIdx, rightIdx);
+
+            await this.wait(delay);
+
+            if (startIdx === endIdx) this.sorted(startIdx);
+
+            if (leftIdxBarHeight > pivotIdxBarHeight && rightIdxBarHeight < pivotIdxBarHeight) {
+                this.swap(leftIdx, rightIdx, barGraphElements);
+
+                await this.wait(delay);
+            }
+
+            this.revertBack(leftIdx, rightIdx);
+
+            await this.wait(delay);
+
+            if (leftIdxBarHeight <= pivotIdxBarHeight) leftIdx++;
+            if (rightIdxBarHeight >= pivotIdxBarHeight) rightIdx--;
+        }        
+        this.swap(pivotIdx, rightIdx, barGraphElements);
+        
+        await this.wait(delay);
+
+        this.revertBack(pivotIdx, rightIdx);
+
+        await this.wait(delay);
+
+        this.sorted(rightIdx);
+
+        await this.wait(delay);
+
+        const leftSubarrayIsSmaller = rightIdx - 1 - startIdx < endIdx - (rightIdx + 1);
+        
+        if (leftSubarrayIsSmaller) {
+            this.quickSortHelper(startIdx, rightIdx - 1, barGraphElements, sortedHeights);
+            this.quickSortHelper(rightIdx + 1, endIdx, barGraphElements, sortedHeights);
+        } else {
+            this.quickSortHelper(rightIdx + 1, endIdx, barGraphElements, sortedHeights);
+            this.quickSortHelper(startIdx, rightIdx - 1, barGraphElements, sortedHeights);
+        }
+
+        const currentSortedHeights = this.getArrayOfHeightsFromElements();
+        const heightsAreEqual = currentSortedHeights.every((height, idx) => height === sortedHeights[idx]);
+
+        if (heightsAreEqual) {
+            this.finishSort();
+        }
+    }
+}
+
+class MergeSort extends SortingAlgorithm {
+    constructor(barGraph, delay = MEDIUM_SPEED_DELAY) {
+        super(delay);
+        this.barHeights = barGraph.barHeights;
+        this.barGraphElements = barGraph.barGraphElements;
+    }
+
+    async sort() {
+        if (this.barGraphElements.length === 1) return this.barGraphElements;
+
+        const auxiliaryBarGraphElements = this.createNodeListClone(this.barGraphElements);
+
+        await this.mergeSortHelper(0, this.barGraphElements.length - 1, this.barGraphElements, auxiliaryBarGraphElements);
+
+        this.finishSort();
+
+        return this.barGraphElements;
+    }
+
+    async mergeSortHelper(startIdx, endIdx, mainBarGraphElements, auxiliaryBarGraphElements) {
+        if (startIdx === endIdx) return;
+
+        const middleIdx = Math.floor((startIdx + endIdx) / 2);
+
+        await this.mergeSortHelper(startIdx, middleIdx, auxiliaryBarGraphElements, mainBarGraphElements);
+        
+        await this.mergeSortHelper(middleIdx + 1, endIdx, auxiliaryBarGraphElements, mainBarGraphElements);
+
+        await this.doMerge(startIdx, middleIdx, endIdx, mainBarGraphElements, auxiliaryBarGraphElements);
+    }
+
+    async doMerge(startIdx, middleIdx, endIdx, mainBarGraphElements, auxiliaryBarGraphElements) {
+        let arrayIdx = startIdx;
+        let leftIdx = startIdx;
+        let rightIdx = middleIdx + 1;
+
+        for (let i = startIdx; i < middleIdx + 1; i++) {
+            this.merge(i);
+
+            await this.wait(delay);
+        }
+
+        for (let i = middleIdx; i < endIdx + 1; i++) {
+            this.merge(i);
+
+            await this.wait(delay);
+        }
+
+        while (leftIdx <= middleIdx && rightIdx <= endIdx) {
+            const auxiliaryBarGraphLeftIdxHeight = this.getBarHeightFromElement(leftIdx, auxiliaryBarGraphElements);
+            const auxiliaryBarGraphRightIdxHeight = this.getBarHeightFromElement(rightIdx, auxiliaryBarGraphElements);
+
+            this.compare(leftIdx, rightIdx);
+
+            await this.wait(delay);
+
+            this.revertBack(leftIdx, rightIdx, "#842BFD");
+
+            await this.wait(delay);
+
+            if (auxiliaryBarGraphLeftIdxHeight <= auxiliaryBarGraphRightIdxHeight) {
+                mainBarGraphElements[arrayIdx].style.height = auxiliaryBarGraphElements[leftIdx].style.height;
+                
+                this.replace(arrayIdx);
+                
+                await this.wait(delay);
+
+                this.revertBack(arrayIdx, arrayIdx, "#842BFD");
+
+                await this.wait(delay);
+
+                leftIdx++;
+                
+            } else {
+                mainBarGraphElements[arrayIdx].style.height = auxiliaryBarGraphElements[rightIdx].style.height;
+
+                this.replace(arrayIdx);
+                
+                await this.wait(delay);
+
+                this.revertBack(arrayIdx, arrayIdx, "#842BFD");
+
+                await this.wait(delay);
+
+                rightIdx++;
+            }
+
+            arrayIdx++;
+        }
+
+        while (leftIdx <= middleIdx) {
+            mainBarGraphElements[arrayIdx].style.height = auxiliaryBarGraphElements[leftIdx].style.height;
+
+            this.replace(arrayIdx);
+                
+            await this.wait(delay);
+
+            this.revertBack(arrayIdx, arrayIdx, "#842BFD");
+
+            await this.wait(delay);
+
+            leftIdx++;
+            arrayIdx++;
+        }
+
+        for (let i = startIdx; i < middleIdx + 1; i++) {
+            this.tentativelySort(i);
+
+            await this.wait(delay);
+        }
+
+        while (rightIdx <= endIdx) {
+            mainBarGraphElements[arrayIdx].style.height = auxiliaryBarGraphElements[rightIdx].style.height;
+
+            this.replace(arrayIdx);
+                
+            await this.wait(delay);
+
+            this.revertBack(arrayIdx, arrayIdx, "#842BFD");
+
+            await this.wait(delay);
+
+            rightIdx++;
+            arrayIdx++;
+        }
+
+        for (let i = middleIdx; i < endIdx + 1; i++) {
+            this.tentativelySort(i);
+
+            await this.wait(delay);
+        }
+
+    }
+
+    createNodeListClone(barGraphElements) {
+        const auxiliaryBarGraphElements = [];
+
+        for (const barGraphElement of barGraphElements) {
+            const nodeClone = barGraphElement.cloneNode();
+            auxiliaryBarGraphElements.push(nodeClone);
+        }
+
+        return auxiliaryBarGraphElements;
+    }
+}
+
 if (closeModalButton) {
     closeModalButton.addEventListener("click", closeModal)
 };
@@ -410,7 +749,13 @@ if (sortButton) {
         // insertionSort.sort();
         // const selectionSort = new SelectionSort(barGraph.barGraphElements, delay);
         // selectionSort.sort();
-        const heapSort = new HeapSort(barGraph.barGraphElements, delay);
-        heapSort.sort();
+        // const heapSort = new HeapSort(barGraph.barGraphElements, delay);
+        // heapSort.sort();
+        const radixSort = new RadixSort(barGraph, delay);
+        radixSort.sort();
+        // const quickSort = new QuickSort(barGraph, delay);
+        // quickSort.sort();
+        // const mergeSort = new MergeSort(barGraph, delay);
+        // mergeSort.sort();
     })
 }
