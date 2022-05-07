@@ -1,3 +1,4 @@
+/* Overall */
 html {
     box-sizing: border-box;
     height: 100vh;
@@ -7,15 +8,27 @@ body {
     margin: 0;
 }
 
-h1 {
-    font-size: 28pt;
-}
-
 a {
     color: #000;
     text-decoration: none;
 }
 
+#footer {
+    width: 100%;
+    height: 120px;
+    padding-top: 30px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+.icon-footer {
+    margin: 1%;
+}
+
+/* Overview page  */
+
+/* Overview page nav bar */
 .navbar {
     padding: 0.5% 3%;
     background-color: #092C4B;
@@ -25,19 +38,15 @@ a {
     color: #fff;
 }
 
-#footer {
-    padding: 2%;
-}
-
 #title .container {
     text-align: center;
     margin: 3rem auto;
 }
 
+/* Card */
 .colored-section {
     background-color: #EAEAEA;
-    margin: 2rem auto;
-    padding: 3rem 1rem;
+    margin: 0;
 }
 
 .white-section {
@@ -50,6 +59,7 @@ a {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    background-color: #F4F4F4;
 }
 
 .card-container {
@@ -66,18 +76,7 @@ a {
     height: 350px;
 }
 
-.icon-footer {
-    margin: 1%;
-}
-
-.white-section#footer {
-    text-align: center;
-    margin: 1.5rem auto;
-}
-
-.back-btn {
-    color: #fff;
-}
+/* Algorithm page */
 
 /* carousel modal */
 .overlay {
@@ -142,9 +141,13 @@ a {
     filter: invert(100%);
 }
 
-/* Navigation bar for algorithm */
+/* Navigation bar for sorting algorithm */
+.back-btn {
+    color: #fff;
+}
+
 .algorithm-navbar {
-    background-color: #f4f4f4;
+    background-color: #F4F4F4;
     display: flex;
 }
 
@@ -253,6 +256,10 @@ a {
     margin-left: 1rem;
 }
 
+.hidden {
+    display: none;
+}
+
 #sort-btn {
     float: right;
     margin-left: 4rem;
@@ -277,11 +284,13 @@ a {
     border-color: #06375A;
 }
 
-.hidden {
-    display: none;
+#error-message {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
-/* Bar graph */
+/* Bar graph for sorting algorithm */
 #algorithm-visualizer-container {
     position: relative;
     display: flex;
@@ -290,12 +299,6 @@ a {
     width: 100%;
     margin: 0;
 }
-
-/* @media (min-height: 690px) {
-    #algorithm-visualizer-container {
-
-    }
-} */
 
 .bar-graph-container {
     position: absolute;
@@ -314,16 +317,17 @@ a {
 
 /* Algorithm page footer */
 .algorithm-footer {
-    width: 100%;
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
+    background-color: #F4F4F4;
 }
 
-/* @media (min-height: 690px) {
+@media (min-height: 710px) {
     .algorithm-footer {
         position: absolute;
         bottom: 0;
+    }  
+
+    #algorithm-visualizer-container {
+        position: absolute;
+        bottom: 120px;
     }
-} */
+}
