@@ -77,8 +77,11 @@ a {
 }
 
 /* Algorithm page */
+.hidden {
+    display: none;
+}
 
-/* carousel modal */
+/* Carousel modal */
 .overlay {
     position: fixed;
     display: flex;
@@ -141,7 +144,7 @@ a {
     filter: invert(100%);
 }
 
-/* Navigation bar for sorting algorithm */
+/* Navigation bar for algorithm page */
 .back-btn {
     color: #fff;
 }
@@ -170,12 +173,13 @@ a {
     font-size: 1rem;
 }
 
+/* Choose algorithm btn  */
 #choose-algorithm-btn-group {
     border-color: #06375A;
 }
 
 #choose-algorithm-btn-text {
-    width: 150px;
+    width: 170px;
 }
 
 .choose-algorithm-inner {
@@ -192,6 +196,7 @@ a {
     box-shadow: none;
 }
 
+/* Data range slider  */
 .slider-container {
     display: inline-block;
 }
@@ -200,6 +205,16 @@ a {
     position: relative;
     top: 3px;
     margin: auto 2rem auto 0.5rem;
+}
+
+/* Speed btn  */
+#slow-speed-btn {
+    margin-left: 1rem;
+}
+
+#medium-speed-btn {
+    background-color: #525252;
+    color: #fff;
 }
 
 .speed-btn {
@@ -214,11 +229,41 @@ a {
     color: #fff;
 }
 
-#medium-speed-btn {
+/* Restart btn */
+#restart-btn {
+    float: right;
+    margin-left: 4rem;
+}
+
+#restart-btn:hover {
     background-color: #525252;
     color: #fff;
 }
 
+.btn-light {
+    border-color: #06375A;
+}
+
+/* Error message  */
+#error-message {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Algorithm page footer */
+.algorithm-footer {
+    background-color: #F4F4F4;
+}
+
+@media (min-height: 690px) {
+    .algorithm-footer {
+        position: absolute;
+        bottom: 0;
+    }  
+}
+
+/* Sorting algorithm */
 .slider-container {
     margin-right: 1rem;
 }
@@ -252,14 +297,6 @@ a {
     cursor: pointer;
 }
 
-#slow-speed-btn {
-    margin-left: 1rem;
-}
-
-.hidden {
-    display: none;
-}
-
 #sort-btn {
     float: right;
     margin-left: 4rem;
@@ -270,29 +307,21 @@ a {
     color: #fff;
 }
 
-#restart-btn {
-    float: right;
-    margin-left: 4rem;
-}
-
-#restart-btn:hover {
-    background-color: #525252;
-    color: #fff;
-}
-
-.btn-light {
-    border-color: #06375A;
-}
-
-#error-message {
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-}
-
 /* Bar graph for sorting algorithm */
-#algorithm-visualizer-container {
-    position: relative;
+@media (min-height: 690px) {
+    #sorting-algorithm-visualizer-container {
+        position: absolute;
+        bottom: 120px;
+    }
+}
+
+@media (max-height: 690px) {
+    #sorting-algorithm-visualizer-container {
+        position: relative;
+    }
+}
+
+#sorting-algorithm-visualizer-container {
     display: flex;
     justify-content: center;
     min-height: 510px;
@@ -302,8 +331,8 @@ a {
 
 .bar-graph-container {
     position: absolute;
-    bottom: 0;
     display: flex;
+    bottom: 0;
     justify-content: center;
     width: 95%;
     margin: 0;
@@ -315,19 +344,70 @@ a {
     width: 8px;
 }
 
-/* Algorithm page footer */
-.algorithm-footer {
-    background-color: #F4F4F4;
+/* Pathfinding algorithm */
+#generate-maze-btn-group {
+    border-color: #06375A;
 }
 
-@media (min-height: 710px) {
-    .algorithm-footer {
-        position: absolute;
-        bottom: 0;
-    }  
+#generate-maze-btn-text {
+    width: 140px;
+}
 
-    #algorithm-visualizer-container {
+.generate-maze-inner {
+    background-color: #fff;
+}
+
+#find-path-btn {
+    float: right;
+    margin-left: 1.5rem;
+}
+
+#find-path-btn:hover {
+    background-color: #525252;
+    color: #fff;
+}
+
+/* Board for pathfinding algorithm */
+@media (min-height: 800px) {
+    #pathfinding-algorithm-visualizer-container {
         position: absolute;
-        bottom: 120px;
+        top: 20%;
     }
+}
+
+@media (max-height: 800px) {
+    #pathfinding-algorithm-visualizer-container {
+        position: relative;
+    }
+}
+
+#pathfinding-algorithm-visualizer-container {
+    display: flex;
+    justify-content: center;
+    min-height: 510px;
+    width: 100%;
+    margin: 0;
+}
+
+.board-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 95%;
+    margin: 0;
+}
+
+#board {
+    position: absolute;
+    top: 50px;
+}
+
+.board-node {
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+    border-collapse: collapse;
+    border-color: #6082B6;
+    margin: 0;
+    padding: 0;
 }

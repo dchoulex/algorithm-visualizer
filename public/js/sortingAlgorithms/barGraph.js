@@ -1,5 +1,7 @@
 import { BAR_MIN_HEIGHT, BAR_MAX_HEIGHT } from "./../config.js";
 
+const isSortingAlgorithm = document.getElementById("sorting-algorithm-visualizer-container");
+
 class BarGraph {
     _parentElement = document.getElementById("bar-graph-container");
 
@@ -9,6 +11,7 @@ class BarGraph {
         this.numberOfData = 10;
 
         this.barHeights = this._getBarHeights(this.numberOfData, this.barMinHeight, this.barMaxHeight);
+
         this.createGraph();
         this.barGraphElements = this._getBarGraphElements();
     }
@@ -53,4 +56,10 @@ class BarGraph {
     };
 }
 
-export default new BarGraph(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT);
+let barGraph;
+
+if (isSortingAlgorithm) {
+    barGraph = new BarGraph(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT);
+}
+
+export { barGraph }

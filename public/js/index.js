@@ -48,3 +48,7 @@ if (closeErrorMessageButton) {
         errorMessage.classList.toggle("show");
     })
 };
+
+
+import { board } from "./pathfindingAlgorithms/board.js";
+

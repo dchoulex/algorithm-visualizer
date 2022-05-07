@@ -1,5 +1,5 @@
 import { MEDIUM_SPEED_DELAY } from "./config.js";
-import barGraph from "./sortingAlgorithms/barGraph.js";
+import { barGraph } from "./sortingAlgorithms/barGraph.js";
 
 const speedButtons = document.querySelectorAll(".speed-btn");
 const mediumSpeedButton = document.getElementById("medium-speed-btn");

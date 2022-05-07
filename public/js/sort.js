@@ -1,5 +1,5 @@
 // Import bar graph 
-import barGraph from "./sortingAlgorithms/barGraph.js";
+import { barGraph } from "./sortingAlgorithms/barGraph.js";
 
 // Import sorting algorithms 
 import BubbleSort from "./sortingAlgorithms/bubbleSort.js";
