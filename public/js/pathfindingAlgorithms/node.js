@@ -1,12 +1,12 @@
 class Node {
-    constructor(rowIdx, colIdx, colorValue) {
+    constructor(rowIdx, colIdx, colorCode) {
         this.id = rowIdx.toString() + "-" + colIdx.toString();
         this.width = 20;
         this.height = 20;
         
         this.rowIdx = rowIdx;
         this.colIdx = colIdx;
-        this.colorValue = colorValue;
+        this.colorCode = colorCode;
         this.weight = 0;
 
         this.distanceFromStart = Infinity;

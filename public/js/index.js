@@ -6,6 +6,9 @@ import { changeAlgorithm } from "./algorithmSelector.js";
 import { sort } from "./sort.js";
 import { init } from "./init.js";
 
+
+
+
 const closeModalButton = document.querySelector(".close-modal");
 const algorithmSelectorButtons = document.querySelectorAll(".dropdown-item");
 const dataRangeSlider = document.getElementById("data-range-slider");
@@ -50,5 +53,9 @@ if (closeErrorMessageButton) {
 };
 
 
-import { board } from "./pathfindingAlgorithms/board.js";
+import { board } from "./pathfindingAlgorithms/board.js"
 
+import AStar from "./pathfindingAlgorithms/AStar.js";
+
+const aStar = new AStar(board);
+aStar.findPath();

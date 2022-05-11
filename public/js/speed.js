@@ -4,16 +4,17 @@ const speedButtons = document.querySelectorAll(".speed-btn");
 
 let delay = MEDIUM_SPEED_DELAY;
 
-function changeSpeed() {
-    const speedChose = this.textContent;
+function changeSpeed(event) {
+    const button = event.target;
+    const speedChose = event.target.textContent;
     
     speedButtons.forEach(speedButton => {
         speedButton.style.backgroundColor = "#fff";
         speedButton.style.color = "#000";
     });
 
-    this.style.backgroundColor = "#525252"
-    this.style.color = "#fff";
+    button.style.backgroundColor = "#525252"
+    button.style.color = "#fff";
 
     if (speedChose === "Slow") {
         delay = SLOW_SPEED_DELAY;

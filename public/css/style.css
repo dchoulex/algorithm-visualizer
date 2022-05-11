@@ -411,3 +411,21 @@ a {
     margin: 0;
     padding: 0;
 }
+
+.start-node {
+    background-image: url(./../img/circle-dot-solid.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.end-node {
+    background-image: url(./../img/periscope-brands.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.neighbor-node {
+    background-color: green;
+}
