@@ -58,4 +58,4 @@ import { board } from "./pathfindingAlgorithms/board.js"
 import AStar from "./pathfindingAlgorithms/AStar.js";
 
 const aStar = new AStar(board);
-aStar.findPath();
+aStar.search();

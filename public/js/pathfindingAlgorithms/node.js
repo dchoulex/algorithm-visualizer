@@ -11,6 +11,8 @@ class Node {
 
         this.distanceFromStart = Infinity;
         this.estimatedDistanceToEnd = Infinity;
+        this.horizontalDistanceToEnd = null;
+        this.verticalDistanceToEnd = null;
         this.cameFrom = null;
     }
 }

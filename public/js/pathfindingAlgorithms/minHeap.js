@@ -3,7 +3,7 @@ class MinHeap {
         this.nodePositionsInHeap = array.reduce((obj, node, idx) => {
             obj[node.id] = idx;
             return obj;
-        });
+        }, {});
 
         this.heap = this.buildHeap(array);
     }
@@ -30,13 +30,13 @@ class MinHeap {
 			
 			let idxToSwap;
 			
-			if (childTwoIdx !== -1 && heap[childTwoIdx].estimateDistanceToEnd < heap[childOneIdx].estimateDistanceToEnd) {
+			if (childTwoIdx !== -1 && heap[childTwoIdx].estimatedDistanceToEnd < heap[childOneIdx].estimatedDistanceToEnd) {
 				idxToSwap = childTwoIdx;
 			} else {
 				idxToSwap = childOneIdx;
 			}
 			
-			if (heap[idxToSwap].estimateDistanceToEnd < heap[currentIdx].estimateDistanceToEnd) {
+			if (heap[idxToSwap].estimatedDistanceToEnd < heap[currentIdx].estimatedDistanceToEnd) {
 				this.swap(currentIdx, idxToSwap, heap);
 				currentIdx = idxToSwap;
 				childOneIdx = currentIdx * 2 + 1;
@@ -49,7 +49,7 @@ class MinHeap {
     siftUp(currentIdx, heap) {
         let parentIdx = Math.floor((currentIdx - 1) / 2);
 		
-		while (currentIdx > 0 && heap[currentIdx].estimateDistanceToEnd < heap[parentIdx].estimateDistanceToEnd) {
+		while (currentIdx > 0 && heap[currentIdx].estimatedDistanceToEnd < heap[parentIdx].estimatedDistanceToEnd) {
 			this.swap(currentIdx, parentIdx, heap);
 			currentIdx = parentIdx;
 			parentIdx = Math.floor((currentIdx - 1) / 2)
@@ -61,11 +61,38 @@ class MinHeap {
     }
 
     remove() {
-		this.swap(0, this.heap.length - 1, this.heap);
+        const idxToSwap = this.getMinVerticalDistanceNodeIdx();
+
+		this.swap(idxToSwap, this.heap.length - 1, this.heap);
+
 		const node = this.heap.pop();
+
 		delete this.nodePositionsInHeap[node.id];
+
 		this.siftDown(0, this.heap.length - 1, this.heap);
+        
 		return node;
+    }
+
+    getMinVerticalDistanceNodeIdx() {
+        const currentMinDistance = this.heap[0].estimatedDistanceToEnd;
+
+        const nodes = this.heap.slice();
+        const nodesWithCurrentMinDistance = [];
+
+        for (const node of nodes) {
+            if (node.estimatedDistanceToEnd === currentMinDistance) nodesWithCurrentMinDistance.push(node);
+        };
+
+        const minVerticalDistance = nodesWithCurrentMinDistance.reduce((minVerticalDistance, node) => {
+            minVerticalDistance = minVerticalDistance < node.verticalDistanceToEnd ? minVerticalDistance : node.verticalDistanceToEnd;
+
+            return minVerticalDistance;
+        }, Infinity);
+
+        const minDistanceNode = nodesWithCurrentMinDistance.find(node => node.verticalDistanceToEnd === minVerticalDistance);
+
+        return this.heap.indexOf(minDistanceNode);
     }
 
     insert(node) {

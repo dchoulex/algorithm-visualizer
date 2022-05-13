@@ -1,5 +1,4 @@
 import Node from "./node.js";
-import { changeColor } from "./../boardEvent.js"
 
 const isPathfindingAlgorithm = document.getElementById("pathfinding-algorithm-visualizer-container");
 
@@ -15,8 +14,8 @@ class Board {
 
         this.nodeElements = this._getAllNodeElements();
         
-        this.startNodeId = "0-0";
-        this.endNodeId = "19-59";
+        this.startNodeId = "16-0";
+        this.endNodeId = "12-59";
 
         this.startNodeElement = this.getNodeElementById(this.startNodeId);
         this.endNodeElement = this.getNodeElementById(this.endNodeId);

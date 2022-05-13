@@ -1,4 +1,4 @@
-import { delay } from "./../speed.js";
+import { SEARCH_DELAY } from "./../config.js"
 
 class PathfindingAlgorithm {
     constructor(board) {
@@ -8,10 +8,10 @@ class PathfindingAlgorithm {
         this.startNode = board.getNodeById(board.startNodeId);
         this.endNode = board.getNodeById(board.endNodeId);
         this.startNodeElement = board.startNodeElement;
-        this.endNodeElement = board.endNodeLement;
+        this.endNodeElement = board.endNodeElement;
     }
 
-    async getNeighboringNodes(node, nodes) {
+    getNeighboringNodes(node, nodes) {
         const neighbors = [];
 
         const numRow = nodes.length;
@@ -20,42 +20,23 @@ class PathfindingAlgorithm {
         const row = node.rowIdx;
         const col = node.colIdx;
 
-        if (row + 1 < numRow) {
-            neighbors.push(nodes[row + 1][col]);
-        }
-
-        if (row - 1 >= 0) {
-            neighbors.push(nodes[row - 1][col]);
-        }
-
-        if (col + 1 < numCol) {
-            neighbors.push(nodes[row][col + 1]);
-        }
-
-        if (col - 1 >= 0) {
-            neighbors.push(nodes[row][col - 1]);
-        }
+        if (row + 1 < numRow) neighbors.push(nodes[row + 1][col]);
+        if (row - 1 >= 0) neighbors.push(nodes[row - 1][col]);
+        if (col + 1 < numCol) neighbors.push(nodes[row][col + 1]);
+        if (col - 1 >= 0) neighbors.push(nodes[row][col - 1]);
 
         return neighbors;
     }
 
-    async addNeighbor(node, neighbors) {
+    async showNeighborNode(node) {
         const nodeId = node.id;
         const nodeElement = this.board.getNodeElementById(nodeId);
 
-        neighbors.push(node);
+        if (nodeElement.classList.contains("running-node")) return;
 
         nodeElement.classList.toggle("neighbor-node");
 
-        await this.wait(delay);
-    }
-
-    async wait(delay) {
-        await new Promise ((resolve) => 
-            setTimeout(() => {
-                resolve();
-            }, delay)
-        );       
+        await this.wait();
     }
 
     reconstructPath(endNode) {
@@ -73,6 +54,44 @@ class PathfindingAlgorithm {
         path.reverse();
 
         return path;
+    }
+
+    async showShortestPathNodes(path) {
+        for (const coordinate of path) {
+            const nodeId = coordinate[0].toString() + "-" + coordinate[1].toString();
+
+            const nodeElement = this.board.getNodeElementById(nodeId);
+
+            if (nodeElement === this.startNodeElement || nodeElement === this.endNodeElement) {
+                nodeElement.style.backgroundColor = "#FFF";
+                continue;
+            }
+
+            if (nodeElement.classList.contains("running-node")) nodeElement.classList.toggle("running-node");
+
+            nodeElement.classList.toggle("shortest-path-node");
+
+            await this.wait();
+        }
+    }
+
+    async showRunningNode(node) {
+        const nodeId = node.id;
+        const nodeElement = this.board.getNodeElementById(nodeId);
+
+        if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
+
+        nodeElement.classList.toggle("running-node");
+
+        await this.wait();
+    }
+
+    async wait() {
+        await new Promise ((resolve) => 
+            setTimeout(() => {
+                resolve();
+            }, SEARCH_DELAY)
+        );       
     }
 }
 

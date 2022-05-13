@@ -426,6 +426,22 @@ a {
     background-size: contain;
 }
 
+.running-node {
+    background-color: #12C69A;
+    border-color: #d7fcfe;
+}
+
 .neighbor-node {
-    background-color: green;
+    background-color: #ade9fd;
+    border-color: #d7fcfe;
+}
+
+.shortest-path-node {
+    background-image: url(./../img/circle-solid.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    background-color: #FFF;
+    border: none;
 }
