@@ -1,4 +1,3 @@
-import { MEDIUM_SPEED_DELAY } from "./config.js";
 import { barGraph } from "./sortingAlgorithms/barGraph.js";
 
 const speedButtons = document.querySelectorAll(".speed-btn");
@@ -7,18 +6,25 @@ const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-
 const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
 const dataRangeSlider = document.getElementById("data-range-slider");
 const sortButton = document.getElementById("sort-btn");
-const restartButton = document.getElementById("restart-btn");
+const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 
-export function init() {
-    let delay = MEDIUM_SPEED_DELAY;
-
+export function restartBarGraph() {
     dataRangeSlider.value = 10;
     barGraph.update(dataRangeSlider.value);
 
+    initializeButtons();
+}
+
+function initializeButtons() {
     chooseAlgorithmButtonText.innerText = "Choose algorithm";
 
-    enableButtons()
+    chooseAlgorithmButton.disabled = false;
+    chooseAlgorithmButtonText.disabled = false;
+    dataRangeSlider.disabled = false;
 
+    sortButton.classList.toggle("hidden");
+    restartBarGraphButton.classList.toggle("hidden");
+    
     speedButtons.forEach(speedButton => {
         speedButton.style.backgroundColor = "#fff";
         speedButton.style.color = "#000";
@@ -26,13 +32,4 @@ export function init() {
 
     mediumSpeedButton.style.backgroundColor = "#525252"
     mediumSpeedButton.style.color = "#fff";
-}
-
-function enableButtons() {
-    chooseAlgorithmButton.disabled = false;
-    chooseAlgorithmButtonText.disabled = false;
-    dataRangeSlider.disabled = false;
-
-    sortButton.classList.toggle("hidden");
-    restartButton.classList.toggle("hidden");
 }

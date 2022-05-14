@@ -1,13 +1,13 @@
 const path = require("path");
 
-exports.getOverviewPage = function(req, res) {
+exports.getOverviewPage = function(_, res) {
     res.status(200).sendFile(path.resolve("public/overview.html"));
 };
 
-exports.getPathfindingPage = function(req, res) {
+exports.getPathfindingPage = function(_, res) {
     res.status(200).sendFile(path.resolve("public/pathfindingAlgorithm.html"));
 };
 
-exports.getSortingPage = function(req, res) {
+exports.getSortingPage = function(_, res) {
     res.status(200).sendFile(path.resolve("public/sortingAlgorithm.html"));
 };

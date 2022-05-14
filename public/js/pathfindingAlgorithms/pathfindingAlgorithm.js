@@ -5,8 +5,9 @@ class PathfindingAlgorithm {
         this.board = board;
         this.boardNodes = board.boardNodes;
         this.nodeElements = board.nodeElements;
-        this.startNode = board.getNodeById(board.startNodeId);
-        this.endNode = board.getNodeById(board.endNodeId);
+
+        this.startNode = board.startNode;
+        this.endNode = board.endNode;
         this.startNodeElement = board.startNodeElement;
         this.endNodeElement = board.endNodeElement;
     }
@@ -62,8 +63,11 @@ class PathfindingAlgorithm {
 
             const nodeElement = this.board.getNodeElementById(nodeId);
 
-            if (nodeElement === this.startNodeElement || nodeElement === this.endNodeElement) {
-                nodeElement.style.backgroundColor = "#FFF";
+            const isStartNodeElement = nodeElement === this.startNodeElement;
+            const isEndNodeElement = nodeElement === this.endNodeElement;
+
+            if (isStartNodeElement || isEndNodeElement) {
+                // nodeElement.style.backgroundColor = "#FFF";
                 continue;
             }
 

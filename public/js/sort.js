@@ -10,11 +10,12 @@ import RadixSort from "./sortingAlgorithms/radixSort.js";
 import QuickSort from "./sortingAlgorithms/quickSort.js";
 import MergeSort from "./sortingAlgorithms/mergeSort.js";
 
+// DOM elements 
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
 const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
 const dataRangeSlider = document.getElementById("data-range-slider");
 const sortButton = document.getElementById("sort-btn");
-const restartButton = document.getElementById("restart-btn");
+const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 const errorMessage = document.getElementById("error-message");
 
 export function sort() {
@@ -89,5 +90,5 @@ function disableButtons() {
     dataRangeSlider.disabled = true;
 
     sortButton.classList.toggle("hidden");
-    restartButton.classList.toggle("hidden");
+    restartBarGraphButton.classList.toggle("hidden");
 }

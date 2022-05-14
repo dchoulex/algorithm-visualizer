@@ -4,12 +4,6 @@ import MinHeap from "./minHeap.js"
 class AStar extends PathfindingAlgorithm {
     constructor(board) {
         super(board);
-        for (let rowIdx = 0; rowIdx < 19; rowIdx++) {
-            this.boardNodes[rowIdx][2].colorCode = 1;
-            const newRow = 19 - rowIdx;
-            this.boardNodes[newRow][4].colorCode = 1;
-        }
-        console.log(this.boardNodes)
     }
 
     async search() {
@@ -21,8 +15,9 @@ class AStar extends PathfindingAlgorithm {
         while (!nodesToVisit.isEmpty()) {
             const currentMinDistanceNode = nodesToVisit.remove();
 
-            // console.log(nodesToVisit.heap.map(node => node.distanceFromStart))
             await this.showRunningNode(currentMinDistanceNode);
+
+            console.log(this.endNode)
 
             if (currentMinDistanceNode === this.endNode) break;
 
@@ -30,8 +25,6 @@ class AStar extends PathfindingAlgorithm {
 
             for (const neighbor of neighbors) {
                 if (neighbor.colorCode === 1) continue;
-
-                // await this.showNeighborNode(neighbor);
 			
                 const tentativeDistanceToNeighbor = currentMinDistanceNode.distanceFromStart + 1;
                 

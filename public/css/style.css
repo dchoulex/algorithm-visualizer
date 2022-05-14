@@ -230,12 +230,12 @@ a {
 }
 
 /* Restart btn */
-#restart-btn {
+.restart-btn {
     float: right;
     margin-left: 4rem;
 }
 
-#restart-btn:hover {
+.restart-btn:hover {
     background-color: #525252;
     color: #fff;
 }
@@ -398,6 +398,7 @@ a {
 }
 
 #board {
+    user-select: none;
     position: absolute;
     top: 50px;
 }
@@ -410,6 +411,8 @@ a {
     border-color: #6082B6;
     margin: 0;
     padding: 0;
+
+    cursor: copy;
 }
 
 .start-node {
@@ -417,6 +420,8 @@ a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+
+    cursor: grab;
 }
 
 .end-node {
@@ -424,6 +429,16 @@ a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+
+    cursor: grab;
+}
+
+.relocating-node {
+    cursor: grabbing;
+}
+
+.restricted-node {
+    cursor: not-allowed;
 }
 
 .running-node {
@@ -434,6 +449,10 @@ a {
 .neighbor-node {
     background-color: #ade9fd;
     border-color: #d7fcfe;
+}
+
+.wall-node {
+    background-color: #000;
 }
 
 .shortest-path-node {
