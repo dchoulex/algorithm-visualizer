@@ -1,4 +1,5 @@
 import { EMPTY_NODE_COLOR_CODE, WALL_NODE_COLOR_CODE, START_NODE_COLOR_CODE, END_NODE_COLOR_CODE } from "../config.js";
+import { NODE_WIDTH, NODE_HEIGHT } from "../config.js";
 import Node from "./node.js";
 
 const isPathfindingAlgorithm = document.getElementById("pathfinding-algorithm-visualizer-container");
@@ -13,30 +14,60 @@ class Board {
     _getStartNodeOrEndNodeInfoHandler = this.getStartNodeOrEndNodeInfo.bind(this);
     _toggleStartNodeOrEndNodeHandler = this.toggleStartNodeOrEndNode.bind(this);
     _toggleWallNodeHandler = this.toggleWallNode.bind(this);
-    _continuouslyToggleWallNodeHandler = this.continuouslyToggleWallNode.bind(this);
+    _toggleWallNodeContinuouslyHandler = this.toggleWallNodeContinuously.bind(this);
     _deactivateToggleWallNodeHandler = this.deactivateToggleWallNode.bind(this);
     _placeStartNodeOrEndNodeHandler = this.placeStartNodeOrEndNode.bind(this);
-    _initializeMouseEventHandler = this.initializeMouseEvent.bind(this);
+    _placeStartNodeOrEndNodeToClosestNodeHandler = this.placeStartNodeOrEndNodeToClosestNode.bind(this);
+    _updateBoardHandler = this.updateBoard.bind(this);
 
     constructor() {
-        this.numberOfRows = 20;
-        this.numberOfColumns = 60;
+        this.numberOfRows = this.calculateNumberOfRows();
+        this.numberOfColumns = this.calculateNumberOfColumns();
         this.boardNodes;
         this.nodeElements;
 
-        this.startNodeId = "16-0";
-        this.endNodeId = "12-59";
+        this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+        this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
 
         this.startNode;
         this.endNode;
         this.startNodeElement;
         this.endNodeElement;
         
-        this.initializeBoard();
+        this.updateBoard();
     }
 
-    initializeBoard() {
-        this._parentElement.innerHTML = "";
+    calculateNumberOfRows() {
+        const navBar = document.getElementById("navbar");
+        const footer = document.getElementById("footer");
+        const navBarHeight = navBar.getBoundingClientRect().height;
+        const footerHeight = footer.getBoundingClientRect().height;
+
+        const boardContainerHeight = window.innerHeight - navBarHeight - footerHeight;
+        const numberOfRows = Math.floor(boardContainerHeight / NODE_HEIGHT);
+ 
+        return numberOfRows < 20 ? 20 : numberOfRows;
+    }
+
+    calculateNumberOfColumns() {
+        const numberOfColumns = Math.floor(window.innerWidth / NODE_WIDTH);
+
+        return numberOfColumns < 51 ? 51 : numberOfColumns;
+    }
+
+    generateRandomId(numberOfRows, numberOfColumns) {
+        const randomRowIdx = Math.floor(Math.random() * numberOfRows);
+        const randomColIdx = Math.floor(Math.random() * numberOfColumns);
+        const randomId = randomRowIdx.toString() + "-" + randomColIdx.toString();
+
+        if (randomId === this.startNodeId) this.generateRandomId(numberOfRows, numberOfColumns);
+        
+        return randomId;
+    }
+
+    updateBoard() {
+        this.numberOfRows = this.calculateNumberOfRows();
+        this.numberOfColumns = this.calculateNumberOfColumns();
 
         this.boardNodes = this._generateBoard();
 
@@ -46,6 +77,17 @@ class Board {
 
         this.startNode = this.getNodeById(this.startNodeId);
         this.endNode = this.getNodeById(this.endNodeId);
+
+        if (!this.startNode) {
+            this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.startNode = this.getNodeById(this.startNodeId);
+        }
+
+        if (!this.endNode) {
+            this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.endNode = this.getNodeById(this.endNodeId);
+        }
+
         this.startNode.colorCode = START_NODE_COLOR_CODE;
         this.endNode.colorCode = END_NODE_COLOR_CODE;
 
@@ -55,12 +97,14 @@ class Board {
         this.renderStartNode();
     
         this.renderEndNode();
-        
+
         this._addEventListeners();
     }
 
     _addEventListeners() {
-        this._parentElement.addEventListener("mouseleave", this._initializeMouseEventHandler);
+        window.addEventListener("resize", this._updateBoardHandler)
+        this._parentElement.addEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
+        this._parentElement.addEventListener("mouseleave", this._placeStartNodeOrEndNodeToClosestNodeHandler);
 
         for (const nodeElement of this.nodeElements) {
             const isStartNodeElement = nodeElement === this.startNodeElement;
@@ -76,7 +120,7 @@ class Board {
             nodeElement.addEventListener("mouseup", this._deactivateToggleWallNodeHandler);
             nodeElement.addEventListener("mouseup", this._placeStartNodeOrEndNodeHandler);
 
-            nodeElement.addEventListener("mouseenter", this._continuouslyToggleWallNodeHandler);
+            nodeElement.addEventListener("mouseenter", this._toggleWallNodeContinuouslyHandler);
             nodeElement.addEventListener("mouseenter", this._toggleStartNodeOrEndNodeHandler);
 
             nodeElement.addEventListener("mouseleave", this._toggleStartNodeOrEndNodeHandler);
@@ -84,7 +128,7 @@ class Board {
     }
 
     _removeEventListeners() {
-        this._parentElement.removeEventListener("mouseleave", this._initializeMouseEventHandler);
+
 
         this.startNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
         this.endNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
@@ -93,7 +137,7 @@ class Board {
             nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
             nodeElement.removeEventListener("mouseup", this._deactivateToggleWallNodeHandler);
             nodeElement.removeEventListener("mouseup", this._placeStartNodeOrEndNodeHandler);
-            nodeElement.removeEventListener("mouseenter", this._continuouslyToggleWallNodeHandler);
+            nodeElement.removeEventListener("mouseenter", this._toggleWallNodeContinuouslyHandler);
             nodeElement.removeEventListener("mouseenter", this._toggleStartNodeOrEndNodeHandler);
             nodeElement.removeEventListener("mouseleave", this._toggleStartNodeOrEndNodeHandler);
         }
@@ -119,7 +163,7 @@ class Board {
         nodeElement.classList.toggle("wall-node");
     }
 
-    continuouslyToggleWallNode(event) {
+    toggleWallNodeContinuously(event) {
         const nodeElement = event.target;
         const selectedNode = this.getNodeFromNodeElement(nodeElement);
 
@@ -207,9 +251,43 @@ class Board {
         this._isRelocatingStartNodeOrEndNode = false;
     }
 
-    initializeMouseEvent() {
-        this.deactivateToggleWallNode();
-        this.deactivateRelocateStartNodeOrEndNode();
+    placeStartNodeOrEndNodeToClosestNode(event) {
+        const cursorHorizontalPosition = event.clientX;
+        const cursorVerticalPosition = event.clientY;
+        const borderNodes = this.getBorderNodes();
+        // console.log(`Horizontal position : ${cursorHorizontalPosition}`);
+        // const leftNode = this.getNodeElementById("0-0");
+        // const rightNode = this.getNodeElementById("0-59");
+        // console.log(`Left node : ${leftNode.getBoundingClientRect().left}`)
+        // console.log(`Right node : ${rightNode.getBoundingClientRect().left}`)
+
+        // console.log(`Vertical position : ${cursorHorizontalPosition}`);
+        // const topNode = this.getNodeElementById("0-0");
+        // const bottomNode = this.getNodeElementById("19-0");
+        // console.log(`Top node : ${topNode.getBoundingClientRect().top}`)
+        // console.log(`Bottom node : ${bottomNode.getBoundingClientRect().top}`)
+        
+        for (const borderNode of borderNodes) {
+            const nodeElement = this.getNodeElementFromNode(borderNode);
+            const nodeElementPosition = nodeElement.getBoundingClientRect();
+        }
+
+    }
+
+    getBorderNodes() {
+        const borderNodes = [];
+
+        for (const nodeRow of this.boardNodes) {
+            for (const node of nodeRow) {
+                const isVerticalBorder = node.rowIdx === 0 || node.rowIdx === this.numberOfRows - 1;
+                const isHorizontalBorder = node.colIdx === 0 || node.colIdx === this.numberOfColumns - 1;
+                const isBorder = isVerticalBorder || isHorizontalBorder;
+
+                if (isBorder) borderNodes.push(node);
+            }
+        }
+
+        return borderNodes;
     }
 
     
@@ -236,6 +314,8 @@ class Board {
     }
 
     renderBoard() {
+        this._parentElement.innerHTML = "";
+
         for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
             const rowMarkup = `<tr data-row-idx="${rowIdx}"></tr>`;
 
@@ -277,6 +357,12 @@ class Board {
         const nodeId = nodeElement.dataset.id;
 
         return this.getNodeById(nodeId);
+    }
+
+    getNodeElementFromNode(node) {
+        const nodeId = node.id;
+
+        return this.getNodeElementById(nodeId);
     }
 }
 

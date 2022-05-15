@@ -9,8 +9,9 @@ export const FAST_SPEED_DELAY = 50;
 export const MEDIUM_SPEED_DELAY = 100;
 export const SLOW_SPEED_DELAY = 200;
 
-// Search speed
-export const SEARCH_DELAY = 25;
+// Board node 
+export const NODE_WIDTH = 25;
+export const NODE_HEIGHT = 25;
 
 // Node color code
 export const EMPTY_NODE_COLOR_CODE = 0;
@@ -18,3 +19,5 @@ export const WALL_NODE_COLOR_CODE = 1;
 export const START_NODE_COLOR_CODE = 2;
 export const END_NODE_COLOR_CODE = 3;
 
+// Search speed
+export const SEARCH_DELAY = 25;

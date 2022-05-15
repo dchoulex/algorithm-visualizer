@@ -17,8 +17,6 @@ class AStar extends PathfindingAlgorithm {
 
             await this.showRunningNode(currentMinDistanceNode);
 
-            console.log(this.endNode)
-
             if (currentMinDistanceNode === this.endNode) break;
 
             const neighbors = this.getNeighboringNodes(currentMinDistanceNode, this.boardNodes);

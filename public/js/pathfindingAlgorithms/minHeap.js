@@ -90,7 +90,16 @@ class MinHeap {
             return minVerticalDistance;
         }, Infinity);
 
-        const minDistanceNode = nodesWithCurrentMinDistance.find(node => node.verticalDistanceToEnd === minVerticalDistance);
+        const minHorizontalDistance = nodesWithCurrentMinDistance.reduce((minHorizontalDistance, node) => {
+            minHorizontalDistance = minHorizontalDistance < node.horizontalDistanceToEnd ? minHorizontalDistance : node.horizontalDistanceToEnd;
+
+            return minHorizontalDistance;
+        }, Infinity);
+
+        const shorterDistance = minHorizontalDistance < minVerticalDistance ? minHorizontalDistance : minVerticalDistance;
+
+        const minDistanceNode = minHorizontalDistance < minVerticalDistance ? nodesWithCurrentMinDistance.find(node => node.horizontalDistanceToEnd === shorterDistance) : nodesWithCurrentMinDistance.find(node => node.verticalDistanceToEnd === shorterDistance)
+        ;
 
         return this.heap.indexOf(minDistanceNode);
     }

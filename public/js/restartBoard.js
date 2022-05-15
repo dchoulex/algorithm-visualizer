@@ -9,7 +9,7 @@ const restartBoardButton = document.getElementById("restart-board-btn");
 
 
 export function restartBoard() {
-    board.initializeBoard();
+    board.restartBoard();
 
     initializeButtons();
 }

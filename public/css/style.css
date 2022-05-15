@@ -186,6 +186,10 @@ a {
     background-color: #fff;
 }
 
+.dropdown-item {
+    user-select: none;
+}
+
 .dropdown-item:focus {
     background-color: #c3d1f1;
     color: #000;
@@ -368,44 +372,23 @@ a {
 }
 
 /* Board for pathfinding algorithm */
-@media (min-height: 800px) {
-    #pathfinding-algorithm-visualizer-container {
-        position: absolute;
-        top: 20%;
-    }
-}
-
-@media (max-height: 800px) {
-    #pathfinding-algorithm-visualizer-container {
-        position: relative;
-    }
-}
-
 #pathfinding-algorithm-visualizer-container {
-    display: flex;
-    justify-content: center;
-    min-height: 510px;
     width: 100%;
+    padding: 0;
     margin: 0;
 }
 
 .board-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 95%;
     margin: 0;
 }
 
 #board {
     user-select: none;
-    position: absolute;
-    top: 50px;
 }
 
 .board-node {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border: 1px solid;
     border-collapse: collapse;
     border-color: #6082B6;
