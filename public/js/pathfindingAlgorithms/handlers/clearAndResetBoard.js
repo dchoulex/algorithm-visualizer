@@ -1,15 +1,25 @@
-import { board } from "./pathfindingAlgorithms/board.js";
+import { board } from "../board.js";
 
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
 const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
 const generateMazeButtonText = document.getElementById("generate-maze-btn-text");
 const generateMazeButton = document.getElementById("generate-maze-btn");
 const findPathButton = document.getElementById("find-path-btn");
-const restartBoardButton = document.getElementById("restart-board-btn");
 
+export function clearBoard() {
+    board.updateBoard();
 
-export function restartBoard() {
-    board.restartBoard();
+    initializeButtons();
+}
+
+export function clearPath() {
+    board.clearPath();
+
+    initializeButtons();
+}
+
+export function resetBoard() {
+    board.resetBoard();
 
     initializeButtons();
 }
@@ -21,7 +31,5 @@ function initializeButtons() {
     chooseAlgorithmButtonText.disabled = false;
     generateMazeButton.disabled = false;
     generateMazeButtonText.disabled = false;
-
-    restartBoardButton.classList.toggle("hidden");
-    findPathButton.classList.toggle("hidden");
+    findPathButton.disabled = false;
 }

@@ -7,8 +7,9 @@ import { sort } from "./sort.js";
 import { restartBarGraph } from "./restartBarGraph.js";
 
 // Import callback function for pathfinding algorithm 
-import { search } from "./search.js"
-import { restartBoard } from "./restartBoard.js"
+import { search } from "./search.js";
+import { clearBoard, clearPath, resetBoard } from "./pathfindingAlgorithms/handlers/clearAndResetBoard.js"
+
 
 // Overall DOM elements 
 const closeModalButton = document.querySelector(".close-modal");
@@ -24,7 +25,9 @@ const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 
 // Pathfinding algorithm DOM elements
 const findPathButton = document.getElementById("find-path-btn");
-const restartBoardButton = document.getElementById("restart-board-btn");
+const clearBoardText = document.getElementById("clear-board-text");
+const clearPathText = document.getElementById("clear-path-text");
+const resetBoardText = document.getElementById("reset-board-text");
 
 if (closeModalButton) {
     closeModalButton.addEventListener("click", closeModal)
@@ -57,13 +60,22 @@ if (restartBarGraphButton) {
 if (closeErrorMessageButton) {
     closeErrorMessageButton.addEventListener("click", () => {
         errorMessage.classList.toggle("show");
+        errorMessage.classList.toggle("hidden");
     })
 };
 
 if (findPathButton) {
-    findPathButton.addEventListener("click", search)
+    findPathButton.addEventListener("click", search);
 }
 
-if (restartBoardButton) {
-    restartBoardButton.addEventListener("click", restartBoard)
+if (clearBoardText) {
+    clearBoardText.addEventListener("click", clearBoard);
+}
+
+if (clearPathText) {
+    clearPathText.addEventListener("click", clearPath);
+}
+
+if (resetBoardText) {
+    resetBoardText.addEventListener("click", resetBoard)
 }

@@ -66,43 +66,104 @@ class Board {
     }
 
     updateBoard() {
-        this.numberOfRows = this.calculateNumberOfRows();
-        this.numberOfColumns = this.calculateNumberOfColumns();
+        this.recalculateBoardRowsAndColumns();
 
         this.boardNodes = this._generateBoard();
 
         this.renderBoard();
 
-        this.nodeElements = this._getAllNodeElements();
+        this._addEventListeners();
+    }
 
-        this.startNode = this.getNodeById(this.startNodeId);
-        this.endNode = this.getNodeById(this.endNodeId);
+    clearPath() {
+        this.recalculateBoardRowsAndColumns();
 
-        if (!this.startNode) {
-            this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
-            this.startNode = this.getNodeById(this.startNodeId);
-        }
+        this.boardNodes = this._generateBoardWithExistingWallNodes();
 
-        if (!this.endNode) {
-            this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
-            this.endNode = this.getNodeById(this.endNodeId);
-        }
-
-        this.startNode.colorCode = START_NODE_COLOR_CODE;
-        this.endNode.colorCode = END_NODE_COLOR_CODE;
-
-        this.startNodeElement = this.getNodeElementById(this.startNodeId);
-        this.endNodeElement = this.getNodeElementById(this.endNodeId);
-
-        this.renderStartNode();
-    
-        this.renderEndNode();
+        this.renderBoard();
 
         this._addEventListeners();
     }
 
+    resetBoard() {
+        this.recalculateBoardRowsAndColumns();
+
+        this.boardNodes = this._generateBoard();
+
+        this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+        this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+
+        this.renderBoard();
+
+        this._addEventListeners();
+    }
+
+    _generateBoardWithExistingWallNodes() {
+        const wallNodesPosition = this.getExistingWallNodesPosition();
+        const board = [];
+
+        for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
+            const row = [];
+
+            for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
+                const previousNode = this.boardNodes[rowIdx][colIdx];
+                const previousNodeId = previousNode.id;
+                let newNode;
+
+                if (previousNodeId in wallNodesPosition) {
+                    newNode = new Node(rowIdx, colIdx, WALL_NODE_COLOR_CODE)
+                } else {
+                    newNode = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE);
+                }
+            
+                row.push(newNode);
+            }
+
+            board.push(row);
+        }
+
+        return board;
+    }
+
+    _generateBoard() {
+        const board = [];
+
+        for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
+            const row = [];
+
+            for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
+                const node = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE);
+                row.push(node);
+            }
+
+            board.push(row);
+        }
+
+        return board;
+    }
+
+    getExistingWallNodesPosition() {
+        const wallNodesPosition = {};
+
+        for (const nodeRow of this.boardNodes) {
+            for (const node of nodeRow) {
+                if (node.colorCode === WALL_NODE_COLOR_CODE) {
+                    const nodeId = node.rowIdx.toString() + "-" + node.colIdx.toString();
+                    wallNodesPosition[nodeId] = true;
+                }
+            }
+        }
+
+        return wallNodesPosition;
+    }
+
+    recalculateBoardRowsAndColumns() {
+        this.numberOfRows = this.calculateNumberOfRows();
+        this.numberOfColumns = this.calculateNumberOfColumns();
+    }
+
     _addEventListeners() {
-        window.addEventListener("resize", this._updateBoardHandler)
+        window.addEventListener("resize", this._updateBoardHandler);
         this._parentElement.addEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
         this._parentElement.addEventListener("mouseleave", this._placeStartNodeOrEndNodeToClosestNodeHandler);
 
@@ -128,8 +189,7 @@ class Board {
     }
 
     _removeEventListeners() {
-
-
+        window.removeEventListener("resize", this._updateBoardHandler);
         this.startNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
         this.endNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
 
@@ -140,6 +200,8 @@ class Board {
             nodeElement.removeEventListener("mouseenter", this._toggleWallNodeContinuouslyHandler);
             nodeElement.removeEventListener("mouseenter", this._toggleStartNodeOrEndNodeHandler);
             nodeElement.removeEventListener("mouseleave", this._toggleStartNodeOrEndNodeHandler);
+
+            nodeElement.classList.toggle("restricted-node");
         }
     }
 
@@ -208,8 +270,6 @@ class Board {
         const selectedNode = this.getNodeFromNodeElement(nodeElement);
 
         if (this._isRelocatingStartNodeOrEndNode) {
-            // if (nodeElement === null) return;
-
             nodeElement.classList.toggle("relocating-node");
 
             if (selectedNode.colorCode === WALL_NODE_COLOR_CODE) nodeElement.classList.toggle("wall-node");
@@ -290,25 +350,6 @@ class Board {
         return borderNodes;
     }
 
-    
-
-    _generateBoard() {
-        const board = [];
-
-        for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
-            const row = [];
-
-            for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
-                const node = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE);
-                row.push(node);
-            }
-
-            board.push(row);
-        }
-
-        return board;
-    }
-
     _getAllNodeElements() {
         return document.querySelectorAll(".board-node");
     }
@@ -325,19 +366,44 @@ class Board {
 
             for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
                 const node = this.boardNodes[rowIdx][colIdx];
+                let columnMarkup;
 
-                const columnMarkup = `<td class="board-node" data-id=${node.id}></td>`;
+                if (node.colorCode === WALL_NODE_COLOR_CODE) {
+                    columnMarkup = `<td class="board-node wall-node" data-id=${node.id}></td>`;                  
+                } else {
+                    columnMarkup = `<td class="board-node" data-id=${node.id}></td>`;                   
+                }
 
                 rowElement.insertAdjacentHTML("beforeend", columnMarkup);
             }
         } 
+
+        this.nodeElements = this._getAllNodeElements();
+
+        this.renderStartNodeAndEndNode();
     }
 
-    renderStartNode() {
+    renderStartNodeAndEndNode() {
+        this.startNode = this.getNodeById(this.startNodeId);
+        this.endNode = this.getNodeById(this.endNodeId);
+
+        if (!this.startNode) {
+            this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.startNode = this.getNodeById(this.startNodeId);
+        }
+
+        if (!this.endNode) {
+            this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.endNode = this.getNodeById(this.endNodeId);
+        }
+
+        this.startNode.colorCode = START_NODE_COLOR_CODE;
+        this.endNode.colorCode = END_NODE_COLOR_CODE;
+
+        this.startNodeElement = this.getNodeElementById(this.startNodeId);
+        this.endNodeElement = this.getNodeElementById(this.endNodeId);
+
         this.startNodeElement.classList.toggle("start-node");
-    }
-
-    renderEndNode() {
         this.endNodeElement.classList.toggle("end-node");
     }
 

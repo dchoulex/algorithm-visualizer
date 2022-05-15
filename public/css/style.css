@@ -255,18 +255,6 @@ a {
     z-index: 1;
 }
 
-/* Algorithm page footer */
-.algorithm-footer {
-    background-color: #F4F4F4;
-}
-
-@media (min-height: 690px) {
-    .algorithm-footer {
-        position: absolute;
-        bottom: 0;
-    }  
-}
-
 /* Sorting algorithm */
 .slider-container {
     margin-right: 1rem;
@@ -307,8 +295,8 @@ a {
 }
 
 #sort-btn:hover {
-    background-color: #525252;
-    color: #fff;
+    background-color: #fbe055;
+    /* color: #fff; */
 }
 
 /* Bar graph for sorting algorithm */
@@ -348,9 +336,23 @@ a {
     width: 8px;
 }
 
+/* Sorting algorithm footer */
+.sorting-algorithm-footer {
+    background-color: #F4F4F4;
+}
+
+@media (min-height: 690px) {
+    .sorting-algorithm-footer {
+        position: absolute;
+        bottom: 0;
+    }  
+}
+
 /* Pathfinding algorithm */
 #generate-maze-btn-group {
     border-color: #06375A;
+    margin: 0;
+    margin-left: 1rem;
 }
 
 #generate-maze-btn-text {
@@ -361,18 +363,33 @@ a {
     background-color: #fff;
 }
 
+#clear-board-text, #clear-path-text, #reset-board-text {
+    font-size: 17px;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    margin-left: 1.7rem;
+    color: rgb(55, 73, 144);
+}
+
+#clear-board-text:hover, #clear-path-text:hover, #reset-board-text:hover {
+    color: #055eed;
+    cursor: pointer;
+}
+
 #find-path-btn {
-    float: right;
-    margin-left: 1.5rem;
+    margin-left: 2.5rem;
 }
 
 #find-path-btn:hover {
-    background-color: #525252;
+    background-color: #2b59cc;
     color: #fff;
 }
 
 /* Board for pathfinding algorithm */
 #pathfinding-algorithm-visualizer-container {
+    position: absolute;
+    justify-content: center;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -447,3 +464,10 @@ a {
     background-color: #FFF;
     border: none;
 }
+
+/* Pathfinding algorithm footer */
+.pathfinding-algorithm-footer {
+    background-color: #F4F4F4;
+    position: absolute;
+    bottom: 0;
+}  

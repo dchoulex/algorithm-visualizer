@@ -10,7 +10,6 @@ const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
 const generateMazeButtonText = document.getElementById("generate-maze-btn-text");
 const generateMazeButton = document.getElementById("generate-maze-btn");
 const findPathButton = document.getElementById("find-path-btn");
-const restartBoardButton = document.getElementById("restart-board-btn");
 const errorMessage = document.getElementById("error-message");
 
 export function search() {
@@ -20,6 +19,8 @@ export function search() {
         case "Choose algorithm":
             if (errorMessage.classList.contains("show")) break;
 
+            if (errorMessage.classList.contains("hidden")) errorMessage.classList.toggle("hidden");
+            
             errorMessage.classList.toggle("show");
 
             break;
@@ -44,7 +45,5 @@ function disableButtons() {
     chooseAlgorithmButtonText.disabled = true;
     generateMazeButton.disabled = true;
     generateMazeButtonText.disabled = true;
-
-    findPathButton.classList.toggle("hidden");
-    restartBoardButton.classList.toggle("hidden");
+    findPathButton.disabled = true;
 }

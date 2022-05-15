@@ -60,22 +60,19 @@
                 <a class="dropdown-item" href="#">Maze 4</a>
               </div>
             </div>
-        </nav>       
+        </nav>     
 
-        <!-- <a class="p-2 text-dark">Speed</a>
-        <div class="btn-group">
-          <button type="button" class="btn speed-btn" id="slow-speed-btn">Slow</button>
-          <button type="button" class="btn speed-btn" id="medium-speed-btn">Medium</button>
-          <button type="button" class="btn speed-btn" id="fast-speed-btn">Fast</button>
-        </div> -->
-
+        <!-- <button class="btn btn-light clear-path-btn" id="clear-path-btn">Clear path</button>
+        <button class="btn btn-light clear-board-btn" id="clear-board-btn">Clear board</button> -->
+        <p class="clear-path-text" id="clear-path-text">Clear path</p>
+        <p class="clear-board-text" id="clear-board-text">Clear board</p>
+        <p class="reset-board-text" id="reset-board-text">Reset board</p>
         <button class="btn btn-light" id="find-path-btn">Find Path!</button>
-        <button class="btn btn-light hidden restart-btn" id="restart-board-btn">Restart</button>
       </div>
     </div>
   </header>
 
-  <div class="alert alert-warning alert-dismissible fade" role="alert" id="error-message">
+  <div class="alert alert-warning alert-dismissible fade hidden" role="alert" id="error-message">
     <strong>Please choose one algorithm!</strong> You can choose an algorithm from the dropdown button above.
     <button type="button" class="close" aria-label="Close" id="error-message-close-btn">
       <span aria-hidden="true">&times;</span>
@@ -92,7 +89,7 @@
     </div>
   </section>
 
-  <footer class="algorithm-footer" id="footer">
+  <footer class="pathfinding-algorithm-footer" id="footer">
     <div class="container-fluid">
       <h5>Contact Info</h5>
       <nav>
