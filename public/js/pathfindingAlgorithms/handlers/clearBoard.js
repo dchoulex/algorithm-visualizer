@@ -13,7 +13,7 @@ export function clearBoard() {
 }
 
 export function clearPath() {
-    board.clearPath();
+    board.updateBoardWithExistingNodes();
 
     initializeButtons();
 }
@@ -25,8 +25,6 @@ export function resetBoard() {
 }
 
 function initializeButtons() {
-    chooseAlgorithmButtonText.innerText = "Choose algorithm";
-
     chooseAlgorithmButton.disabled = false;
     chooseAlgorithmButtonText.disabled = false;
     generateMazeButton.disabled = false;

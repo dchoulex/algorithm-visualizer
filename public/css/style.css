@@ -370,6 +370,7 @@ a {
     margin: 0;
     margin-left: 1.7rem;
     color: rgb(55, 73, 144);
+    user-select: none;
 }
 
 #clear-board-text:hover, #clear-path-text:hover, #reset-board-text:hover {
@@ -388,8 +389,6 @@ a {
 
 /* Board for pathfinding algorithm */
 #pathfinding-algorithm-visualizer-container {
-    position: absolute;
-    justify-content: center;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -453,6 +452,8 @@ a {
 
 .wall-node {
     background-color: #000;
+    
+    cursor: pointer;
 }
 
 .shortest-path-node {

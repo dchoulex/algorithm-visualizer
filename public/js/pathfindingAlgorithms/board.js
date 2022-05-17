@@ -18,7 +18,7 @@ class Board {
     _deactivateToggleWallNodeHandler = this.deactivateToggleWallNode.bind(this);
     _placeStartNodeOrEndNodeHandler = this.placeStartNodeOrEndNode.bind(this);
     _placeStartNodeOrEndNodeToClosestNodeHandler = this.placeStartNodeOrEndNodeToClosestNode.bind(this);
-    _updateBoardHandler = this.updateBoard.bind(this);
+    _updateBoardWithExistingNodesHandler = this.updateBoardWithExistingNodes.bind(this);
 
     constructor() {
         this.numberOfRows = this.calculateNumberOfRows();
@@ -68,17 +68,17 @@ class Board {
     updateBoard() {
         this.recalculateBoardRowsAndColumns();
 
-        this.boardNodes = this._generateBoard();
+        this.boardNodes = this._generateBoardNodes();
 
         this.renderBoard();
 
         this._addEventListeners();
     }
 
-    clearPath() {
+    updateBoardWithExistingNodes() {
         this.recalculateBoardRowsAndColumns();
 
-        this.boardNodes = this._generateBoardWithExistingWallNodes();
+        this.boardNodes = this._generateBoardNodesFromExistingBoard();
 
         this.renderBoard();
 
@@ -88,7 +88,7 @@ class Board {
     resetBoard() {
         this.recalculateBoardRowsAndColumns();
 
-        this.boardNodes = this._generateBoard();
+        this.boardNodes = this._generateBoardNodes();
 
         this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
         this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
@@ -98,7 +98,7 @@ class Board {
         this._addEventListeners();
     }
 
-    _generateBoardWithExistingWallNodes() {
+    _generateBoardNodesFromExistingBoard() {
         const wallNodesPosition = this.getExistingWallNodesPosition();
         const board = [];
 
@@ -106,12 +106,12 @@ class Board {
             const row = [];
 
             for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
-                const previousNode = this.boardNodes[rowIdx][colIdx];
-                const previousNodeId = previousNode.id;
+                const currentNodeId = rowIdx.toString() + "-" + colIdx.toString();
+
                 let newNode;
 
-                if (previousNodeId in wallNodesPosition) {
-                    newNode = new Node(rowIdx, colIdx, WALL_NODE_COLOR_CODE)
+                if (currentNodeId in wallNodesPosition) {
+                    newNode = new Node(rowIdx, colIdx, WALL_NODE_COLOR_CODE);
                 } else {
                     newNode = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE);
                 }
@@ -122,10 +122,37 @@ class Board {
             board.push(row);
         }
 
+        this.updateStartNode();
+        this.updateEndNode();
+
         return board;
     }
 
-    _generateBoard() {
+    updateStartNode() {
+        this.startNode = this.getNodeById(this.startNodeId);
+
+        if (!this.startNode) {
+            this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.startNode = this.getNodeById(this.startNodeId);
+        }
+
+        this.startNodeElement = this.getNodeElementFromNode(this.startNode);
+        this.startNode.colorCode = START_NODE_COLOR_CODE;
+    }
+
+    updateEndNode() {
+        this.endNode = this.getNodeById(this.endNodeId);
+
+        if (!this.endNode) {
+            this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+            this.endNode = this.getNodeById(this.endNodeId);
+        }
+
+        this.endNodeElement = this.getNodeElementFromNode(this.endNode);
+        this.endNode.colorCode = END_NODE_COLOR_CODE;
+    }
+
+    _generateBoardNodes() {
         const board = [];
 
         for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
@@ -163,9 +190,9 @@ class Board {
     }
 
     _addEventListeners() {
-        window.addEventListener("resize", this._updateBoardHandler);
-        this._parentElement.addEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
+        window.addEventListener("resize", this._updateBoardWithExistingNodesHandler);
         this._parentElement.addEventListener("mouseleave", this._placeStartNodeOrEndNodeToClosestNodeHandler);
+        this._parentElement.addEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
 
         for (const nodeElement of this.nodeElements) {
             const isStartNodeElement = nodeElement === this.startNodeElement;
@@ -189,7 +216,10 @@ class Board {
     }
 
     _removeEventListeners() {
-        window.removeEventListener("resize", this._updateBoardHandler);
+        window.removeEventListener("resize", this._updateBoardWithExistingNodesHandler);
+        this._parentElement.removeEventListener("mouseleave", this._placeStartNodeOrEndNodeToClosestNodeHandler);
+        this._parentElement.removeEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
+
         this.startNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
         this.endNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
 
@@ -279,29 +309,29 @@ class Board {
     }
 
     placeStartNodeOrEndNode(event) {
+        if (!this._isRelocatingStartNodeOrEndNode) return;
+
         const nodeElement = event.target;
         const selectedNode = this.getNodeFromNodeElement(nodeElement);
 
-        if (this._isRelocatingStartNodeOrEndNode) {
-            selectedNode.colorCode = this._activeColorCode;
+        selectedNode.colorCode = this._activeColorCode;
 
-            if (this._activeColorCode === START_NODE_COLOR_CODE) {
-                this.startNodeId = nodeElement.dataset.id;
-                this.startNode = selectedNode;
-                this.startNodeElement = nodeElement;
-            } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
-                this.endNodeId = nodeElement.dataset.id;
-                this.endNode = selectedNode;
-                this.endNodeElement = nodeElement;
-            }
+        if (this._activeColorCode === START_NODE_COLOR_CODE) {
+            this.startNodeId = nodeElement.dataset.id;
+            this.startNode = selectedNode;
+            this.startNodeElement = nodeElement;
+        } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
+            this.endNodeId = nodeElement.dataset.id;
+            this.endNode = selectedNode;
+            this.endNodeElement = nodeElement;
+        }
 
-            nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
-            nodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
+        nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
+        nodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
 
-            this._activeColorCode = WALL_NODE_COLOR_CODE;
+        this._activeColorCode = WALL_NODE_COLOR_CODE;
 
-            this.deactivateRelocateStartNodeOrEndNode();
-        }  
+        this.deactivateRelocateStartNodeOrEndNode();
     }
 
     deactivateRelocateStartNodeOrEndNode() {
@@ -312,38 +342,124 @@ class Board {
     }
 
     placeStartNodeOrEndNodeToClosestNode(event) {
-        const cursorHorizontalPosition = event.clientX;
-        const cursorVerticalPosition = event.clientY;
-        const borderNodes = this.getBorderNodes();
-        // console.log(`Horizontal position : ${cursorHorizontalPosition}`);
-        // const leftNode = this.getNodeElementById("0-0");
-        // const rightNode = this.getNodeElementById("0-59");
-        // console.log(`Left node : ${leftNode.getBoundingClientRect().left}`)
-        // console.log(`Right node : ${rightNode.getBoundingClientRect().left}`)
+        if (!this._isRelocatingStartNodeOrEndNode) return;
 
-        // console.log(`Vertical position : ${cursorHorizontalPosition}`);
-        // const topNode = this.getNodeElementById("0-0");
-        // const bottomNode = this.getNodeElementById("19-0");
-        // console.log(`Top node : ${topNode.getBoundingClientRect().top}`)
-        // console.log(`Bottom node : ${bottomNode.getBoundingClientRect().top}`)
-        
-        for (const borderNode of borderNodes) {
-            const nodeElement = this.getNodeElementFromNode(borderNode);
-            const nodeElementPosition = nodeElement.getBoundingClientRect();
+        const cursorHorizontalPosition = Math.abs(event.clientX);
+        const cursorVerticalPosition = Math.abs(event.clientY);
+
+        const closestNode = this.getClosestNodeToBorder(cursorHorizontalPosition, cursorVerticalPosition);
+        const closestNodeElement = this.getNodeElementFromNode(closestNode);
+
+        closestNode.colorCode = this._activeColorCode;
+
+        if (this._activeColorCode === START_NODE_COLOR_CODE) {
+            this.startNodeId = closestNodeElement.dataset.id;
+            this.startNode = closestNode;
+            this.startNodeElement = closestNodeElement;
+            closestNodeElement.classList.toggle("start-node");
+        } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
+            this.endNodeId = closestNodeElement.dataset.id;
+            this.endNode = closestNode;
+            this.endNodeElement = closestNodeElement;
+            closestNodeElement.classList.toggle("end-node");
         }
 
+        console.log(this.startNodeId);
+
+        closestNodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
+        closestNodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
+
+        this._activeColorCode = WALL_NODE_COLOR_CODE;
+
+        this.deactivateRelocateStartNodeOrEndNode();
     }
+
+    getClosestNodeToBorder(cursorHorizontalPosition, cursorVerticalPosition) {
+        const borderNodes = this.getBorderNodes();
+        let closestNode = null;
+        let minDistance = Infinity;
+        
+        for (const borderNode of borderNodes) {
+            const borderNodeElement = this.getNodeElementFromNode(borderNode);
+            const currentNodeVerticalPosition = borderNodeElement.getBoundingClientRect().top;
+            const currentNodeHorizontalPosition = borderNodeElement.getBoundingClientRect().left;
+
+            const horizontalDistance = Math.abs(currentNodeHorizontalPosition - cursorHorizontalPosition);
+            const verticalDistance = Math.abs(currentNodeVerticalPosition - cursorVerticalPosition);
+
+            const currentNodeMinDistance = horizontalDistance + verticalDistance;
+
+            if (currentNodeMinDistance < minDistance) {
+                minDistance = currentNodeMinDistance;
+                closestNode = borderNode;
+            }
+        }
+
+        return closestNode;
+    }
+    
+    // getClosestNodeToBorder(cursorHorizontalPosition, cursorVerticalPosition) {
+    //     const borderNodes = this.getBorderNodes();
+    //     let closestNode = null;
+    //     let minDistance = Infinity;
+    //     const borderPosition = this.getBorderPosition(cursorHorizontalPosition, cursorVerticalPosition);
+
+    //     for (const borderNode of borderNodes[borderPosition]) {
+    //         if (cursorVerticalPosition) {
+    //             const currentNodeVerticalPosition = borderNode.getBoundingClientRect().top;
+    //             const currentNodeToCursorDistance = Math.abs(currentNodeVerticalPosition - cursorVerticalPosition);
+
+    //             if (currentNodeToCursorDistance < minDistance) {
+    //                 minDistance = currentNodeToCursorDistance;
+    //                 closestNode = borderNode;
+    //             }
+    //         } 
+            
+    //         if (cursorHorizontalPosition) {
+    //             const currentNodeHorizontalPosition = borderNode.getBoundingClientRect().left;
+    //             const currentNodeToCursorDistance = Math.abs(currentNodeHorizontalPosition - cursorHorizontalPosition);
+
+    //             if (currentNodeToCursorDistance < minDistance) {
+    //                 minDistance = currentNodeToCursorDistance;
+    //                 closestNode = borderNode;
+    //             }
+    //         }
+    //     }
+
+    //     return closestNode;
+
+        // let closestNode;
+        
+        // for (const borderNode of borderNodes[border]) {
+        //     const nodeElement = this.getNodeElementFromNode(borderNode);
+        //     const nodeElementPosition = nodeElement.getBoundingClientRect();
+
+        //     if (Math.abs(nodeElementPosition[direction] - cursorPosition) < 20) {
+        //         console.log(nodeElementPosition[direction]);
+        //         console.log(cursorPosition);
+        //         closestNode = nodeElement;
+        //         console.log(closestNode);
+        //     }
+        // }
+    // }
+
+    // getBorderPosition(cursorHorizontalPosition, cursorVerticalPosition) {
+    //     if (cursorHorizontalPosition < 0) return "left";
+    // }
 
     getBorderNodes() {
         const borderNodes = [];
 
         for (const nodeRow of this.boardNodes) {
             for (const node of nodeRow) {
-                const isVerticalBorder = node.rowIdx === 0 || node.rowIdx === this.numberOfRows - 1;
-                const isHorizontalBorder = node.colIdx === 0 || node.colIdx === this.numberOfColumns - 1;
-                const isBorder = isVerticalBorder || isHorizontalBorder;
+                const isTopBorderNode = node.rowIdx === 0 
+                const isBottomBorderNode = node.rowIdx === this.numberOfRows - 1;
+                const isLeftBorderNode = node.colIdx === 0;
+                const isRightBorderNode = node.colIdx === this.numberOfColumns - 1;
 
-                if (isBorder) borderNodes.push(node);
+                const isBorderNode = isTopBorderNode || isBottomBorderNode || isLeftBorderNode || isRightBorderNode;
+
+                if (isBorderNode) borderNodes.push(node);
             }
         }
 
@@ -360,19 +476,13 @@ class Board {
         for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
             const rowMarkup = `<tr data-row-idx="${rowIdx}"></tr>`;
 
-            this._parentElement.insertAdjacentHTML("afterbegin", rowMarkup);
+            this._parentElement.insertAdjacentHTML("beforeend", rowMarkup);
 
-            const rowElement = document.querySelector("[data-row-idx]");
+            const rowElement = document.querySelector(`tr[data-row-idx="${rowIdx}"]`);
 
             for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
                 const node = this.boardNodes[rowIdx][colIdx];
-                let columnMarkup;
-
-                if (node.colorCode === WALL_NODE_COLOR_CODE) {
-                    columnMarkup = `<td class="board-node wall-node" data-id=${node.id}></td>`;                  
-                } else {
-                    columnMarkup = `<td class="board-node" data-id=${node.id}></td>`;                   
-                }
+                const columnMarkup = this.generateNodeMarkup(node);
 
                 rowElement.insertAdjacentHTML("beforeend", columnMarkup);
             }
@@ -381,6 +491,28 @@ class Board {
         this.nodeElements = this._getAllNodeElements();
 
         this.renderStartNodeAndEndNode();
+    }
+
+    generateNodeMarkup(node) {
+        let columnMarkup;
+
+        if (node.colorCode === EMPTY_NODE_COLOR_CODE) {
+            columnMarkup = `<td class="board-node" data-id=${node.id}></td>`;                   
+        }
+
+        if (node.colorCode === WALL_NODE_COLOR_CODE) {
+            columnMarkup = `<td class="board-node wall-node" data-id=${node.id}></td>`;                  
+        } 
+
+        if (node.colorCode === START_NODE_COLOR_CODE) {
+            columnMarkup = `<td class="board-node start-node" data-id=${node.id}></td>`; 
+        }
+
+        if (node.colorCode === START_NODE_COLOR_CODE) {
+            columnMarkup = `<td class="board-node end-node" data-id=${node.id}></td>`; 
+        }
+
+        return columnMarkup;
     }
 
     renderStartNodeAndEndNode() {

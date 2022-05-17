@@ -8,7 +8,7 @@ import { restartBarGraph } from "./restartBarGraph.js";
 
 // Import callback function for pathfinding algorithm 
 import { search } from "./search.js";
-import { clearBoard, clearPath, resetBoard } from "./pathfindingAlgorithms/handlers/clearAndResetBoard.js"
+import { clearBoard, clearPath, resetBoard } from "./pathfindingAlgorithms/handlers/clearBoard.js"
 
 
 // Overall DOM elements 
