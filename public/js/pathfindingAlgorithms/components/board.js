@@ -81,7 +81,7 @@ class Board {
     updateBoardWithExistingNodes() {
         this.recalculateBoardRowsAndColumns();
 
-        this.boardNodes = this._generateBoardNodes();
+        this.boardNodes = this._generateBoardNodes(true);
 
         this.renderBoard();
 
@@ -91,10 +91,10 @@ class Board {
     resetBoard() {
         this.recalculateBoardRowsAndColumns();
 
-        this.boardNodes = this._generateBoardNodes();
-
         this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
         this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
+
+        this.boardNodes = this._generateBoardNodes();
 
         this.renderBoard();
 
@@ -102,6 +102,7 @@ class Board {
     }
 
     updateStartNode(id) {
+        this.startNodeId = id;
         this.startNode = this.getNodeById(id);
 
         // Generate new start node when previous start node is outbound current window size (resizing event)
@@ -119,6 +120,7 @@ class Board {
     }
 
     updateEndNode(id) {
+        this.endNodeId = id;
         this.endNode = this.getNodeById(id);
 
         // Generate new end node when previous end node is outbound current window size (resizing event)
@@ -135,11 +137,11 @@ class Board {
         if (!this.endNodeElement.classList.contains("end-node")) this.endNodeElement.classList.toggle("end-node");
     }
 
-    _generateBoardNodes() {
+    _generateBoardNodes(useExistingNodes = false) {
         const board = [];
         let wallNodeIds;
 
-        if (this.boardNodes) {
+        if (useExistingNodes) {
             wallNodeIds = this.getExistingWallNodeIds();
         }
 
@@ -154,7 +156,7 @@ class Board {
                     node = new Node(rowIdx, colIdx, START_NODE_COLOR_CODE);
                 } else if (nodeId === this.endNodeId) {
                     node = new Node(rowIdx, colIdx, END_NODE_COLOR_CODE);
-                } else if (wallNodeIds && nodeId in wallNodeIds) {
+                } else if (useExistingNodes && nodeId in wallNodeIds) {
                     node = new Node(rowIdx, colIdx, WALL_NODE_COLOR_CODE);
                 } else {
                     node = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE)
@@ -169,7 +171,7 @@ class Board {
         return board;
     }
 
-    getExistingWallNodesIds() {
+    getExistingWallNodeIds() {
         const wallNodeIds = {};
 
         for (const nodeRow of this.boardNodes) {
@@ -331,7 +333,12 @@ class Board {
         if (this._activeColorCode === START_NODE_COLOR_CODE) {
             this.startNode.colorCode = EMPTY_NODE_COLOR_CODE;
 
+            console.log(this.startNodeId);
+            console.log(nodeElement.dataset.id)
+
             this.updateStartNode(nodeElement.dataset.id);
+
+            console.log(this.startNodeId)
 
         } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
             this.endNode.colorCode = EMPTY_NODE_COLOR_CODE;
@@ -361,6 +368,7 @@ class Board {
         };
 
         this.placeStartNodeOrEndNodeHelper(closestNodeElement);
+
     }
 
     getClosestNodeElementToBorder(cursorHorizontalPosition, cursorVerticalPosition) {

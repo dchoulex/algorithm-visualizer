@@ -13,7 +13,7 @@ export function clearBoard() {
 }
 
 export function clearPath() {
-    board.updateBoardWithExistingNodes();
+    board.updateBoard(true);
 
     initializeButtons();
 }
