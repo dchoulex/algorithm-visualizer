@@ -15,10 +15,8 @@ class Board {
     _previousNodeElementForRelocation;
 
     // Event handlers
-    // _getStartNodeOrEndNodeInfoHandler = this.getStartNodeOrEndNodeInfo.bind(this);
     _getNodeInfoHandler = this.getNodeInfo.bind(this);
     _toggleStartNodeOrEndNodeHandler = this.toggleStartNodeOrEndNode.bind(this);
-    // _toggleWallNodeHandler = this.toggleWallNode.bind(this);
     _toggleWallNodeContinuouslyHandler = this.toggleWallNodeContinuously.bind(this);
     _deactivateToggleWallNodeHandler = this.deactivateToggleWallNode.bind(this);
     _placeStartNodeOrEndNodeHandler = this.placeStartNodeOrEndNode.bind(this);
@@ -103,37 +101,6 @@ class Board {
         this._addEventListeners();
     }
 
-    // _generateBoardNodesFromExistingBoard() {
-    //     const wallNodesPosition = this.getExistingWallNodesPosition();
-    //     const board = [];
-
-    //     for (let rowIdx = 0; rowIdx < this.numberOfRows; rowIdx++) {
-    //         const row = [];
-
-    //         for (let colIdx = 0; colIdx < this.numberOfColumns; colIdx++) {
-    //             const currentNodeId = rowIdx.toString() + "-" + colIdx.toString();
-
-    //             let newNode;
-
-    //             if (currentNodeId in wallNodesPosition) {
-    //                 newNode = new Node(rowIdx, colIdx, WALL_NODE_COLOR_CODE);
-    //             } else {
-    //                 newNode = new Node(rowIdx, colIdx, EMPTY_NODE_COLOR_CODE);
-    //             }
-            
-    //             row.push(newNode);
-    //         }
-
-    //         board.push(row);
-    //     }
-
-    //     this.updateStartNode(this.startNodeId);
-
-    //     this.updateEndNode(this.startNodeId);
-
-    //     return board;
-    // }
-
     updateStartNode(id) {
         this.startNode = this.getNodeById(id);
 
@@ -199,8 +166,6 @@ class Board {
             board.push(row);
         }
 
-        // console.log(board.map(nodeRow => nodeRow.map(node => node.colorCode)))
-
         return board;
     }
 
@@ -230,16 +195,6 @@ class Board {
         this._parentElement.addEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
 
         for (const nodeElement of this.nodeElements) {
-            // const isStartNodeElement = nodeElement === this.startNodeElement;
-            // const isEndNodeElement = nodeElement === this.endNodeElement;
-
-            // if (isStartNodeElement || isEndNodeElement) {
-            //     this.startNodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-            //     this.endNodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-            // } else {
-            //     nodeElement.addEventListener("mousedown", this._toggleWallNodeHandler);
-            // }
-
             nodeElement.addEventListener("mousedown", this._getNodeInfoHandler);
 
             nodeElement.addEventListener("mouseup", this._deactivateToggleWallNodeHandler);
@@ -257,12 +212,8 @@ class Board {
         this._parentElement.removeEventListener("mouseleave", this._placeStartNodeOrEndNodeToClosestNodeHandler);
         this._parentElement.removeEventListener("mouseleave", this._deactivateToggleWallNodeHandler);
 
-        // this.startNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-        // this.endNodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-
         for (const nodeElement of this.nodeElements) {
             nodeElement.removeEventListener("mousedown", this._getNodeInfoHandler);
-            // nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
             nodeElement.removeEventListener("mouseup", this._deactivateToggleWallNodeHandler);
             nodeElement.removeEventListener("mouseup", this._placeStartNodeOrEndNodeHandler);
             nodeElement.removeEventListener("mouseenter", this._toggleWallNodeContinuouslyHandler);
@@ -272,26 +223,6 @@ class Board {
             if (!nodeElement.classList.contains("restricted-node"))nodeElement.classList.toggle("restricted-node");
         }
     }
-
-    // toggleWallNode(event) {
-    //     this._isTogglingWallNode = true;
-
-    //     const nodeElement = event.target;
-
-    //     const selectedNode = this.getNodeFromNodeElement(nodeElement);
-
-    //     const isStartNode = selectedNode.colorCode === START_NODE_COLOR_CODE;
-    //     const isEndNode = selectedNode.colorCode === END_NODE_COLOR_CODE;
-
-    //     if (isStartNode || isEndNode) return;
-
-    //     if (selectedNode.colorCode === WALL_NODE_COLOR_CODE) this.activeColorCode = EMPTY_NODE_COLOR_CODE;
-    //     else this.activeColorCode = WALL_NODE_COLOR_CODE;
-
-    //     selectedNode.colorCode = this.activeColorCode;
-
-    //     nodeElement.classList.toggle("wall-node");
-    // }
 
     toggleWallNodeContinuously(event) {
         const nodeElement = event.target;
@@ -318,65 +249,11 @@ class Board {
         this._isTogglingWallNode = false;
     }
 
-    // getStartNodeOrEndNodeInfo(event) {
-    //     // this._isTogglingWallNode = true;
-
-    //     // const nodeElement = event.target;
-
-    //     // const selectedNode = this.getNodeFromNodeElement(nodeElement);
-
-    //     // const isStartNode = selectedNode.colorCode === START_NODE_COLOR_CODE;
-    //     // const isEndNode = selectedNode.colorCode === END_NODE_COLOR_CODE;
-
-    //     // if (isStartNode || isEndNode) return;
-
-    //     // if (selectedNode.colorCode === WALL_NODE_COLOR_CODE) this.activeColorCode = EMPTY_NODE_COLOR_CODE;
-    //     // else this.activeColorCode = WALL_NODE_COLOR_CODE;
-
-    //     // selectedNode.colorCode = this.activeColorCode;
-
-    //     // nodeElement.classList.toggle("wall-node");
-
-    //     const nodeElement = event.target;
-    //     const node = this.getNodeFromNodeElement(nodeElement);
-    //     const isStartNodeOrEndNode = this.validateStartNodeOrEndNode(node);
-
-    //     if (isStartNodeOrEndNode) {
-    //         this._isRelocatingStartNodeOrEndNode = true;
-
-    //         this._activeColorCode = node.colorCode;
-    
-    //         nodeElement.classList.toggle("relocating-node");
-    
-    //         // nodeElement.removeEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-    
-    //         // nodeElement.addEventListener("mousedown", this._toggleWallNodeHandler);
-    //     } else if (node.colorCode === EMPTY_NODE_COLOR_CODE) {
-    //         this._isTogglingWallNode = true;
-
-    //         this._activeColorCode = WALL_NODE_COLOR_CODE;
-
-    //         node.colorCode = this._activeColorCode;
-
-    //         if (!nodeElement.classList.contains("wall-node")) nodeElement.classList.toggle("wall-node");
-
-    //     } else if (node.colorCode === WALL_NODE_COLOR_CODE) {
-    //         this._isTogglingWallNode = true;
-
-    //         this._activeColorCode = EMPTY_NODE_COLOR_CODE;
-
-    //         node.colorCode = this._activeColorCode;
-
-    //         if (nodeElement.classList.contains("wall-node")) nodeElement.classList.remove("wall-node");
-    //     }
-    // }
-
     getNodeInfo(event) {
         const nodeElement = event.target;
         const node = this.getNodeFromNodeElement(nodeElement);
         const isStartNodeOrEndNode = this.validateStartNodeOrEndNode(node);
         this._previousNodeElementForRelocation = nodeElement;
-        // console.log(isStartNodeOrEndNode)
 
         if (isStartNodeOrEndNode) {
             this._isRelocatingStartNodeOrEndNode = true;
@@ -445,32 +322,9 @@ class Board {
         };
 
         this.placeStartNodeOrEndNodeHelper(nodeElement);
-        // const selectedNode = this.getNodeFromNodeElement(nodeElement);
-
-        // selectedNode.colorCode = this._activeColorCode;
-
-        // if (this._activeColorCode === START_NODE_COLOR_CODE) {
-        //     this.startNodeId = nodeElement.dataset.id;
-        //     this.startNode = selectedNode;
-        //     this.startNodeElement = nodeElement;
-        // } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
-        //     this.endNodeId = nodeElement.dataset.id;
-        //     this.endNode = selectedNode;
-        //     this.endNodeElement = nodeElement;
-        // }
-
-        // nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
-        // nodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-
-        // this._activeColorCode = WALL_NODE_COLOR_CODE;
-
-        // this.deactivateRelocateStartNodeOrEndNode();
     }
 
     placeStartNodeOrEndNodeHelper(nodeElement) {
-        // const selectedNode = this.getNodeFromNodeElement(nodeElement);
-
-        // selectedNode.colorCode = this._activeColorCode;
         if (this.startNodeElement.classList.contains("restricted-node")) this.startNodeElement.classList.remove("restricted-node");
         if (this.endNodeElement.classList.contains("restricted-node")) this.endNodeElement.classList.remove("restricted-node");
 
@@ -489,33 +343,7 @@ class Board {
         if (this.endNodeElement.classList.contains("relocating-node")) this.endNodeElement.classList.remove("relocating-node");
 
         this._isRelocatingStartNodeOrEndNode = false;
-
-        // console.log(this.boardNodes.map(nodeRow => nodeRow.map(node => node.colorCode)))
-
-
-        // if (this._activeColorCode === START_NODE_COLOR_CODE) {
-
-        // } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
-
-        // }
-
-        // console.log(this.boardNodes.map(nodeRow => nodeRow.map(node => node.colorCode)))
-
-
-        // nodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
-        // nodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-
-        // this._activeColorCode = WALL_NODE_COLOR_CODE;
-
-
     }
-
-    // deactivateRelocateStartNodeOrEndNode() {
-    //     this.startNodeElement.classList.remove("relocating-node");
-    //     this.endNodeElement.classList.remove("relocating-node");
-
-    //     this._isRelocatingStartNodeOrEndNode = false;
-    // }
 
     placeStartNodeOrEndNodeToClosestNode(event) {
         if (!this._isRelocatingStartNodeOrEndNode) return;
@@ -533,29 +361,6 @@ class Board {
         };
 
         this.placeStartNodeOrEndNodeHelper(closestNodeElement);
-
-        // closestNode.colorCode = this._activeColorCode;
-
-        // if (this._activeColorCode === START_NODE_COLOR_CODE) {
-        //     this.startNodeId = closestNodeElement.dataset.id;
-        //     this.startNode = closestNode;
-        //     this.startNodeElement = closestNodeElement;
-        //     closestNodeElement.classList.toggle("start-node");
-        // } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
-        //     this.endNodeId = closestNodeElement.dataset.id;
-        //     this.endNode = closestNode;
-        //     this.endNodeElement = closestNodeElement;
-        //     closestNodeElement.classList.toggle("end-node");
-        // }
-
-        // console.log(this.startNodeId);
-
-        // closestNodeElement.removeEventListener("mousedown", this._toggleWallNodeHandler);
-        // closestNodeElement.addEventListener("mousedown", this._getStartNodeOrEndNodeInfoHandler);
-
-        // this._activeColorCode = WALL_NODE_COLOR_CODE;
-
-        // this.deactivateRelocateStartNodeOrEndNode();
     }
 
     getClosestNodeElementToBorder(cursorHorizontalPosition, cursorVerticalPosition) {
@@ -625,7 +430,6 @@ class Board {
 
         this.nodeElements = this._getAllNodeElements();
 
-        // this.renderStartNodeAndEndNode();
         this.updateStartNode(this.startNodeId);
 
         this.updateEndNode(this.endNodeId);
@@ -652,30 +456,6 @@ class Board {
 
         return columnMarkup;
     }
-
-    // renderStartNodeAndEndNode() {
-    //     this.startNode = this.getNodeById(this.startNodeId);
-    //     this.endNode = this.getNodeById(this.endNodeId);
-
-    //     if (!this.startNode) {
-    //         this.startNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
-    //         this.startNode = this.getNodeById(this.startNodeId);
-    //     }
-
-    //     if (!this.endNode) {
-    //         this.endNodeId = this.generateRandomId(this.numberOfRows, this.numberOfColumns);
-    //         this.endNode = this.getNodeById(this.endNodeId);
-    //     }
-
-    //     this.startNode.colorCode = START_NODE_COLOR_CODE;
-    //     this.endNode.colorCode = END_NODE_COLOR_CODE;
-
-    //     this.startNodeElement = this.getNodeElementById(this.startNodeId);
-    //     this.endNodeElement = this.getNodeElementById(this.endNodeId);
-
-    //     this.startNodeElement.classList.toggle("start-node");
-    //     this.endNodeElement.classList.toggle("end-node");
-    // }
 
     getNodeById(id) {
         for (const nodeRow of this.boardNodes) {
