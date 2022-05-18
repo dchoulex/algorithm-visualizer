@@ -1,21 +1,21 @@
 // Import callback function for sorting algorithm
-import { changeSpeed } from "./speed.js";
-import { closeModal } from "./modal.js";
-import { changeDataRange } from "./dataRange.js";
-import { changeAlgorithm } from "./algorithmSelector.js";
-import { sort } from "./sort.js";
-import { restartBarGraph } from "./restartBarGraph.js";
+import { changeSpeed } from "./sortingAlgorithms/handlers/changeSpeed.js";
+import { changeDataRange } from "./sortingAlgorithms/handlers/changeDataRange.js";
+import { changeAlgorithm } from "./changeAlgorithm.js";
+import { sort } from "./sortingAlgorithms/handlers/sort.js";
+import { restartBarGraph } from "./sortingAlgorithms/handlers/restartBarGraph.js";
 
 // Import callback function for pathfinding algorithm 
-import { search } from "./search.js";
+import { search } from "./pathfindingAlgorithms/handlers/search.js";
 import { clearBoard, clearPath, resetBoard } from "./pathfindingAlgorithms/handlers/clearBoard.js"
-
 
 // Overall DOM elements 
 const closeModalButton = document.querySelector(".close-modal");
 const algorithmSelectorButtons = document.querySelectorAll(".dropdown-item");
 const errorMessage = document.getElementById("error-message");
 const closeErrorMessageButton = document.getElementById("error-message-close-btn");
+const modal = document.getElementById("modal");
+const overlay = document.getElementById("overlay");
 
 // Sorting algorithm DOM elements 
 const dataRangeSlider = document.getElementById("data-range-slider");
@@ -30,7 +30,10 @@ const clearPathText = document.getElementById("clear-path-text");
 const resetBoardText = document.getElementById("reset-board-text");
 
 if (closeModalButton) {
-    closeModalButton.addEventListener("click", closeModal)
+    closeModalButton.addEventListener("click", () => {
+        modal.classList.toggle("hidden");
+        overlay.classList.toggle("hidden");
+    })
 };
 
 if (speedButtons){
@@ -40,13 +43,13 @@ if (speedButtons){
 };
 
 if (dataRangeSlider) {
-    dataRangeSlider.addEventListener("change", changeDataRange)
+    dataRangeSlider.addEventListener("change", changeDataRange);
 };
 
 if (algorithmSelectorButtons) {
     algorithmSelectorButtons.forEach(button => {
         button.addEventListener("click", changeAlgorithm)
-    })
+    });
 };
 
 if (sortButton) {
@@ -59,8 +62,8 @@ if (restartBarGraphButton) {
 
 if (closeErrorMessageButton) {
     closeErrorMessageButton.addEventListener("click", () => {
-        errorMessage.classList.toggle("show");
-        errorMessage.classList.toggle("hidden");
+        errorMessage.classList.remove("show");
+        errorMessage.classList.remove("hidden");
     })
 };
 

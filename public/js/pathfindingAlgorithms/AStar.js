@@ -1,5 +1,6 @@
 import PathfindingAlgorithm from "./pathfindingAlgorithm.js";
 import MinHeap from "./minHeap.js"
+import { WALL_NODE_COLOR_CODE } from "../config.js";
 
 class AStar extends PathfindingAlgorithm {
     constructor(board) {
@@ -22,7 +23,7 @@ class AStar extends PathfindingAlgorithm {
             const neighbors = this.getNeighboringNodes(currentMinDistanceNode, this.boardNodes);
 
             for (const neighbor of neighbors) {
-                if (neighbor.colorCode === 1) continue;
+                if (neighbor.colorCode === WALL_NODE_COLOR_CODE) continue;
 			
                 const tentativeDistanceToNeighbor = currentMinDistanceNode.distanceFromStart + 1;
                 

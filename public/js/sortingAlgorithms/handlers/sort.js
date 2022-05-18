@@ -1,14 +1,14 @@
 // Import bar graph 
-import { barGraph } from "./sortingAlgorithms/barGraph.js";
+import { barGraph } from "../components/barGraph.js";
 
 // Import sorting algorithms 
-import BubbleSort from "./sortingAlgorithms/bubbleSort.js";
-import InsertionSort from "./sortingAlgorithms/insertionSort.js";
-import SelectionSort from "./sortingAlgorithms/selectionSort.js";
-import HeapSort from "./sortingAlgorithms/heapSort.js";
-import RadixSort from "./sortingAlgorithms/radixSort.js";
-import QuickSort from "./sortingAlgorithms/quickSort.js";
-import MergeSort from "./sortingAlgorithms/mergeSort.js";
+import BubbleSort from "../bubbleSort.js";
+import InsertionSort from "../insertionSort.js";
+import SelectionSort from "../selectionSort.js";
+import HeapSort from "../heapSort.js";
+import RadixSort from "../radixSort.js";
+import QuickSort from "../quickSort.js";
+import MergeSort from "../mergeSort.js";
 
 // DOM elements 
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");

@@ -1,8 +1,8 @@
 // Import board
-import { board } from "./pathfindingAlgorithms/board.js";
+import { board } from "../components/board.js";
 
 // Import pathfinding algorithms
-import AStar from "./pathfindingAlgorithms/AStar.js";
+import AStar from "../aStar.js";
 
 // DOM elements
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");

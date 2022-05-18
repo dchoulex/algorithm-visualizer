@@ -1,4 +1,4 @@
-import { barGraph } from "./sortingAlgorithms/barGraph.js";
+import { barGraph } from "../components/barGraph.js";
 
 const speedButtons = document.querySelectorAll(".speed-btn");
 const mediumSpeedButton = document.getElementById("medium-speed-btn");

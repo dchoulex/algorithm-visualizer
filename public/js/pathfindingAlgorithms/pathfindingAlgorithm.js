@@ -1,4 +1,4 @@
-import { SEARCH_DELAY } from "./../config.js"
+import { SEARCH_DELAY } from "../config.js"
 
 class PathfindingAlgorithm {
     constructor(board) {

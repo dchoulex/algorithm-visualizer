@@ -1,4 +1,4 @@
-import { SLOW_SPEED_DELAY, MEDIUM_SPEED_DELAY, FAST_SPEED_DELAY } from "./config.js";
+import { SLOW_SPEED_DELAY, MEDIUM_SPEED_DELAY, FAST_SPEED_DELAY } from "../../config.js";
 
 const speedButtons = document.querySelectorAll(".speed-btn");
 const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");

@@ -1,4 +1,4 @@
-import { BAR_MIN_HEIGHT, BAR_MAX_HEIGHT } from "./../config.js";
+import { BAR_MIN_HEIGHT, BAR_MAX_HEIGHT } from "../../config.js";
 
 const isSortingAlgorithm = document.getElementById("sorting-algorithm-visualizer-container");
 

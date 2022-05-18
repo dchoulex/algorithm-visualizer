@@ -1,5 +1,5 @@
-import { MIN_NUMBER_OF_BARS, MAX_NUMBER_OF_BARS} from "./config.js";
-import { barGraph } from "./sortingAlgorithms/barGraph.js";
+import { MIN_NUMBER_OF_BARS, MAX_NUMBER_OF_BARS} from "../../config.js";
+import { barGraph } from "../components/barGraph.js";
 
 const dataRangeSlider = document.getElementById("data-range-slider");
 

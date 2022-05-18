@@ -1,4 +1,4 @@
-import { board } from "../board.js";
+import { board } from "../components/board.js";
 
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
 const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");

@@ -1,4 +1,4 @@
-import { delay } from "./../speed.js";
+import { delay } from "./handlers/changeSpeed.js";
 
 class SortingAlgorithm {
     constructor(barGraph) {

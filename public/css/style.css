@@ -78,7 +78,7 @@ a {
 
 /* Algorithm page */
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* Carousel modal */

@@ -3,8 +3,8 @@ const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-
 
 export function changeAlgorithm() {
     if (errorMessage.classList.contains("show")) {
-        errorMessage.classList.toggle("show");
-        errorMessage.classList.toggle("hidden");
+        errorMessage.classList.remove("show");
+        errorMessage.classList.remove("hidden");
     }
 
     const algorithmChose = this.textContent;
