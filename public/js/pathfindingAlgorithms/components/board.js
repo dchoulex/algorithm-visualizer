@@ -1,6 +1,6 @@
 // Import node properties
 import { EMPTY_NODE_COLOR_CODE, WALL_NODE_COLOR_CODE, START_NODE_COLOR_CODE, END_NODE_COLOR_CODE } from "../../config.js";
-import { NODE_WIDTH, NODE_HEIGHT } from "../../config.js";
+import { NODE_WIDTH, NODE_HEIGHT, MIN_NUMBER_OF_ROWS, MIN_NUMBER_OF_COLS } from "../../config.js";
 
 // Import node 
 import Node from "./node.js";
@@ -49,13 +49,13 @@ class Board {
         const boardContainerHeight = window.innerHeight - navBarHeight - footerHeight;
         const numberOfRows = Math.floor(boardContainerHeight / NODE_HEIGHT);
  
-        return numberOfRows < 20 ? 20 : numberOfRows;
+        return numberOfRows < MIN_NUMBER_OF_ROWS ? MIN_NUMBER_OF_ROWS : numberOfRows;
     }
 
     calculateNumberOfColumns() {
         const numberOfColumns = Math.floor(window.innerWidth / NODE_WIDTH);
 
-        return numberOfColumns < 51 ? 51 : numberOfColumns;
+        return numberOfColumns < MIN_NUMBER_OF_COLS ? MIN_NUMBER_OF_COLS : numberOfColumns;
     }
 
     generateRandomId(numberOfRows, numberOfColumns) {

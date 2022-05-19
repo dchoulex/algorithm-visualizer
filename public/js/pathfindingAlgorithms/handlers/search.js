@@ -2,6 +2,8 @@
 import { board } from "../components/board.js";
 
 // Import pathfinding algorithms
+import DepthFirstSearch from "../depthFirstSearch.js";
+import BreadthFirstSearch from "../breadthFirstSearch.js";
 import AStar from "../aStar.js";
 
 // DOM elements
@@ -24,6 +26,27 @@ export function search() {
             errorMessage.classList.toggle("show");
 
             break;
+
+        case "Depth first search":
+            const depthFirstSearch = new DepthFirstSearch(board);
+
+            depthFirstSearch.search();
+
+            break;
+
+        case "Breadth first search":
+            const breadthFirstSearch = new BreadthFirstSearch(board);
+
+            breadthFirstSearch.search();
+
+            break;
+
+        // case "Dijkstra's algorithm":
+        //     const dijkstra = new Dijkstra(board);
+
+        //     dijkstra.search();
+
+        //     break;
 
         case "A* algorithm":
             const aStar = new AStar(board);

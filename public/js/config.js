@@ -12,6 +12,8 @@ export const SLOW_SPEED_DELAY = 200;
 // Board node 
 export const NODE_WIDTH = 25;
 export const NODE_HEIGHT = 25;
+export const MIN_NUMBER_OF_ROWS = 20;
+export const MIN_NUMBER_OF_COLS = 51;
 
 // Node color code
 export const EMPTY_NODE_COLOR_CODE = 0;

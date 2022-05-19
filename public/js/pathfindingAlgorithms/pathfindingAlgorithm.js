@@ -1,6 +1,8 @@
 import { SEARCH_DELAY } from "../config.js"
 
 class PathfindingAlgorithm {
+    _timer;
+
     constructor(board) {
         this.board = board;
         this.boardNodes = board.boardNodes;
@@ -85,17 +87,22 @@ class PathfindingAlgorithm {
 
         if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
 
-        nodeElement.classList.toggle("running-node");
+        if (!nodeElement.classList.contains("running-node")) nodeElement.classList.toggle("running-node");
 
         await this.wait();
     }
 
     async wait() {
-        await new Promise ((resolve) => 
-            setTimeout(() => {
-                resolve();
-            }, SEARCH_DELAY)
-        );       
+        this._timer = new Promise ((resolve) => 
+        setTimeout(() => {
+            resolve();
+        }, SEARCH_DELAY));
+
+        await this._timer;
+    }
+
+    _clearTimer() {
+        clearTimeout(this._timer);    
     }
 }
 
