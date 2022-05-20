@@ -1,6 +1,8 @@
-import PathfindingAlgorithm from "./pathfindingAlgorithm.js";
-import MinHeap from "./minHeap.js"
 import { WALL_NODE_COLOR_CODE } from "../config.js";
+import PathfindingAlgorithm from "./pathfindingAlgorithm.js";
+import MinHeap from "./minHeap.js";
+
+import { stopAlgorithm, changeStopAlgorithm } from "./handlers/clearBoard.js";
 
 class AStar extends PathfindingAlgorithm {
     constructor(board) {
@@ -8,6 +10,8 @@ class AStar extends PathfindingAlgorithm {
     }
 
     async search() {
+        if (stopAlgorithm) changeStopAlgorithm(false);
+
         this.startNode.distanceFromStart = 0;
         this.startNode.estimatedDistanceToEnd = this.calculateManhattanDistance(this.startNode, this.endNode);
 
@@ -15,7 +19,14 @@ class AStar extends PathfindingAlgorithm {
         const visited = new Set();
 
         while (!nodesToVisit.isEmpty()) {
+            if (stopAlgorithm) {
+                changeStopAlgorithm(false);
+                return;
+            };
+
             const currentMinDistanceNode = nodesToVisit.remove();
+
+            if (visited.has(currentMinDistanceNode.id)) continue;
 
             visited.add(currentMinDistanceNode.id);
 

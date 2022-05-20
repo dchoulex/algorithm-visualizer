@@ -1,8 +1,7 @@
-import { SEARCH_DELAY } from "../config.js"
+import { SEARCH_DELAY } from "../config.js";
+import { stopAlgorithm, changeStopAlgorithm } from "./handlers/clearBoard.js";
 
 class PathfindingAlgorithm {
-    _timer;
-
     constructor(board) {
         this.board = board;
         this.boardNodes = board.boardNodes;
@@ -23,9 +22,9 @@ class PathfindingAlgorithm {
         const row = node.rowIdx;
         const col = node.colIdx;
 
-        if (row + 1 < numRow) neighbors.push(nodes[row + 1][col]);
         if (row - 1 >= 0) neighbors.push(nodes[row - 1][col]);
         if (col + 1 < numCol) neighbors.push(nodes[row][col + 1]);
+        if (row + 1 < numRow) neighbors.push(nodes[row + 1][col]);
         if (col - 1 >= 0) neighbors.push(nodes[row][col - 1]);
 
         return neighbors;
@@ -61,6 +60,11 @@ class PathfindingAlgorithm {
 
     async showShortestPathNodes(path) {
         for (const coordinate of path) {
+            if (stopAlgorithm) {
+                changeStopAlgorithm(false);
+                return;
+            }
+
             const nodeId = coordinate[0].toString() + "-" + coordinate[1].toString();
 
             const nodeElement = this.board.getNodeElementById(nodeId);
@@ -85,7 +89,7 @@ class PathfindingAlgorithm {
         const nodeId = node.id;
         const nodeElement = this.board.getNodeElementById(nodeId);
 
-        if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
+        // if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
 
         if (!nodeElement.classList.contains("running-node")) nodeElement.classList.toggle("running-node");
 
@@ -93,16 +97,10 @@ class PathfindingAlgorithm {
     }
 
     async wait() {
-        this._timer = new Promise ((resolve) => 
+        await new Promise ((resolve) => 
         setTimeout(() => {
             resolve();
         }, SEARCH_DELAY));
-
-        await this._timer;
-    }
-
-    _clearTimer() {
-        clearTimeout(this._timer);    
     }
 }
 

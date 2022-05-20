@@ -1,5 +1,6 @@
+import { WALL_NODE_COLOR_CODE, } from "../config.js";
 import PathfindingAlgorithm from "./pathfindingAlgorithm.js";
-import { WALL_NODE_COLOR_CODE } from "../config.js";
+import { stopAlgorithm, changeStopAlgorithm } from "./handlers/clearBoard.js";
 
 class BreadthFirstSearch extends PathfindingAlgorithm {
     constructor(board) {
@@ -7,17 +8,22 @@ class BreadthFirstSearch extends PathfindingAlgorithm {
     }
 
     async search() {
+        if (stopAlgorithm) changeStopAlgorithm(false);
+        
         const nodesToVisit = [this.startNode];
         const visited = new Set();
-
+        
         while(nodesToVisit.length) {
+            if (stopAlgorithm) {
+                changeStopAlgorithm(false);
+                return;
+            }
+
             const currentNode = nodesToVisit.shift();
 
-            if (visited.has(currentNode.id)) continue;
+            visited.add(currentNode.id);
 
             await this.showRunningNode(currentNode);
-
-            visited.add(currentNode.id);
 
             if (currentNode === this.endNode) break;
 
@@ -25,6 +31,8 @@ class BreadthFirstSearch extends PathfindingAlgorithm {
 
             for (const neighbor of neighbors) {
                 if (neighbor.colorCode === WALL_NODE_COLOR_CODE || visited.has(neighbor.id)) continue;
+
+                visited.add(neighbor.id);
 
                 neighbor.cameFrom = currentNode;
 
