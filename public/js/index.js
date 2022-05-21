@@ -24,9 +24,9 @@ const sortButton = document.getElementById("sort-btn");
 const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 
 // Pathfinding algorithm DOM elements
-const clearBoardText = document.getElementById("clear-board-text");
-const clearPathText = document.getElementById("clear-path-text");
-const resetBoardText = document.getElementById("reset-board-text");
+const clearBoardButton = document.getElementById("clear-board-btn");
+const clearPathButton = document.getElementById("clear-path-btn");
+const resetBoardButton = document.getElementById("reset-board-btn");
 const findPathButton = document.getElementById("find-path-btn");
 const helpButton = document.getElementById("help-btn");
 
@@ -79,15 +79,15 @@ if (findPathButton) {
     findPathButton.addEventListener("click", search);
 }
 
-if (clearBoardText) {
+if (clearBoardButton) {
     clearBoardText.addEventListener("click", clearBoard);
 }
 
-if (clearPathText) {
+if (clearPathButton) {
     clearPathText.addEventListener("click", clearPath);
 }
 
-if (resetBoardText) {
+if (resetBoardButton) {
     resetBoardText.addEventListener("click", resetBoard)
 }
 

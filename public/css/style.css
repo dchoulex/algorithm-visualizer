@@ -109,7 +109,6 @@ ul {
     display: block;
     width: 700px;
     height: 600px;
-    /* width: 70%; */
     
     background-color: #fff;
     padding: 3rem 8rem 2rem;
@@ -200,6 +199,9 @@ ul {
     background-image: url("./../img/circle-question-solid.svg");
     width: 25px;
     height: 25px;
+    border: none;
+    background-color: inherit;
+
     padding: 0;
     margin: 0;
     margin-left: 1.5rem;
@@ -401,7 +403,9 @@ ul {
     background-color: #fff;
 }
 
-#clear-board-text, #clear-path-text, #reset-board-text {
+#clear-board-btn, #clear-path-btn, #reset-board-btn {
+    border: none;
+    background-color: inherit;
     font-size: 17px;
     font-weight: 500;
     padding: 0;
@@ -411,7 +415,7 @@ ul {
     user-select: none;
 }
 
-#clear-board-text:hover, #clear-path-text:hover, #reset-board-text:hover {
+#clear-board-btn:hover, #clear-path-btn:hover, #reset-board-btn:hover {
     color: #055eed;
     cursor: pointer;
 }
