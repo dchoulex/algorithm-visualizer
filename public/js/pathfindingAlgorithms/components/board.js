@@ -333,12 +333,7 @@ class Board {
         if (this._activeColorCode === START_NODE_COLOR_CODE) {
             this.startNode.colorCode = EMPTY_NODE_COLOR_CODE;
 
-            console.log(this.startNodeId);
-            console.log(nodeElement.dataset.id)
-
             this.updateStartNode(nodeElement.dataset.id);
-
-            console.log(this.startNodeId)
 
         } else if (this._activeColorCode === END_NODE_COLOR_CODE) {
             this.endNode.colorCode = EMPTY_NODE_COLOR_CODE;
