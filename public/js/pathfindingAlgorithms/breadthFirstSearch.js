@@ -30,7 +30,14 @@ class BreadthFirstSearch extends PathfindingAlgorithm {
             const neighbors = this.getNeighboringNodes(currentNode, this.boardNodes);
 
             for (const neighbor of neighbors) {
+                if (stopAlgorithm) {
+                    changeStopAlgorithm(false);
+                    return;
+                }
+                
                 if (neighbor.colorCode === WALL_NODE_COLOR_CODE || visited.has(neighbor.id)) continue;
+
+                await this.showNeighborNode(neighbor);
 
                 visited.add(neighbor.id);
 

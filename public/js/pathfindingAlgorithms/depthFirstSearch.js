@@ -1,6 +1,6 @@
 import { WALL_NODE_COLOR_CODE } from "../config.js";
 import PathfindingAlgorithm from "./pathfindingAlgorithm.js";
-import { stopAlgorithm, changeStopAlgorithm } from "./handlers/clearBoard.js"
+import { stopAlgorithm, changeStopAlgorithm } from "./handlers/clearBoard.js";
 
 class DepthFirstSearch extends PathfindingAlgorithm {
     constructor(board) {
@@ -9,7 +9,7 @@ class DepthFirstSearch extends PathfindingAlgorithm {
 
     async search() {
         if (stopAlgorithm) changeStopAlgorithm(false);
-        
+
         const nodesToVisit = [this.startNode];
         const visited = new Set();
 
@@ -21,8 +21,6 @@ class DepthFirstSearch extends PathfindingAlgorithm {
 
             const currentNode = nodesToVisit.pop();
 
-            if (visited.has(currentNode.id)) continue;
-
             visited.add(currentNode.id);
 
             await this.showRunningNode(currentNode);
@@ -32,7 +30,16 @@ class DepthFirstSearch extends PathfindingAlgorithm {
             const neighbors = this.getNeighboringNodes(currentNode, this.boardNodes);
 
             for (const neighbor of neighbors) {
+                if (stopAlgorithm) {
+                    changeStopAlgorithm(false);
+                    return;
+                }
+
                 if (neighbor.colorCode === WALL_NODE_COLOR_CODE || visited.has(neighbor.id)) continue;
+
+                visited.add(neighbor.id);
+
+                await this.showNeighborNode(neighbor);
 
                 neighbor.cameFrom = currentNode;
 

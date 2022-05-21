@@ -176,6 +176,7 @@ a {
 /* Choose algorithm btn  */
 #choose-algorithm-btn-group {
     border-color: #06375A;
+    margin-left: 1rem;
 }
 
 #choose-algorithm-btn-text {
@@ -208,7 +209,7 @@ a {
 .slider {
     position: relative;
     top: 3px;
-    margin: auto 2rem auto 0.5rem;
+    margin-left: 1rem;
 }
 
 /* Speed btn  */
@@ -291,7 +292,7 @@ a {
 
 #sort-btn {
     float: right;
-    margin-left: 4rem;
+    margin-left: 2rem;
 }
 
 #sort-btn:hover {
@@ -432,6 +433,11 @@ a {
     cursor: grab;
 }
 
+.start-node-path, .end-node-path {
+    background-color: rgb(255, 255, 255);
+    border: #FFF;
+}
+
 .relocating-node {
     cursor: grabbing;
 }
@@ -442,16 +448,17 @@ a {
 
 .running-node {
     background-color: #12C69A;
-    border-color: #d7fcfe;
+    border-color: #FFF;
 }
 
 .neighbor-node {
-    background-color: #ade9fd;
-    border-color: #d7fcfe;
+    background-color: #e2f3f8;
+    border-color: #aec8ee;
 }
 
 .wall-node {
     background-color: #000;
+    border-color: rgb(85, 85, 85);
     
     cursor: pointer;
 }

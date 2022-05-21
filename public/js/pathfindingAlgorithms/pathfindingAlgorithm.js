@@ -34,9 +34,7 @@ class PathfindingAlgorithm {
         const nodeId = node.id;
         const nodeElement = this.board.getNodeElementById(nodeId);
 
-        if (nodeElement.classList.contains("running-node")) return;
-
-        nodeElement.classList.toggle("neighbor-node");
+        if (!nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
 
         await this.wait();
     }
@@ -72,9 +70,18 @@ class PathfindingAlgorithm {
             const isStartNodeElement = nodeElement === this.startNodeElement;
             const isEndNodeElement = nodeElement === this.endNodeElement;
 
-            if (isStartNodeElement || isEndNodeElement) {
-                // nodeElement.style.backgroundColor = "#FFF";
+            if (isStartNodeElement) {
+                if (nodeElement.classList.contains("running-node")) nodeElement.classList.remove("running-node");
+
+                nodeElement.classList.toggle("start-node-path")
                 continue;
+            }
+
+            if (isEndNodeElement) {
+                if (nodeElement.classList.contains("running-node")) nodeElement.classList.remove("running-node");
+
+                nodeElement.classList.toggle("end-node-path")
+                continue;  
             }
 
             if (nodeElement.classList.contains("running-node")) nodeElement.classList.toggle("running-node");
@@ -89,7 +96,7 @@ class PathfindingAlgorithm {
         const nodeId = node.id;
         const nodeElement = this.board.getNodeElementById(nodeId);
 
-        // if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.toggle("neighbor-node");
+        if (nodeElement.classList.contains("neighbor-node")) nodeElement.classList.remove("neighbor-node");
 
         if (!nodeElement.classList.contains("running-node")) nodeElement.classList.toggle("running-node");
 

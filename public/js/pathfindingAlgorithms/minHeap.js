@@ -61,7 +61,7 @@ class MinHeap {
     }
 
     remove() {
-        const idxToSwap = this.getMinVerticalDistanceNodeIdx();
+        const idxToSwap = this.getMinDistanceNodeIdx();
 
 		this.swap(idxToSwap, this.heap.length - 1, this.heap);
 
@@ -74,32 +74,71 @@ class MinHeap {
 		return node;
     }
 
-    getMinVerticalDistanceNodeIdx() {
+    // getMinVerticalDistanceNodeIdx() {
+    //     const currentMinDistance = this.heap[0].estimatedDistanceToEnd;
+
+    //     const nodes = this.heap.slice();
+    //     const nodesWithCurrentMinDistance = [];
+
+    //     for (const node of nodes) {
+    //         if (node.estimatedDistanceToEnd === currentMinDistance) nodesWithCurrentMinDistance.push(node);
+    //     };
+
+    //     const minVerticalDistance = nodesWithCurrentMinDistance.reduce((minVerticalDistance, node) => {
+    //         minVerticalDistance = minVerticalDistance < node.verticalDistanceToEnd ? minVerticalDistance : node.verticalDistanceToEnd;
+
+    //         return minVerticalDistance;
+    //     }, Infinity);
+
+    //     const minHorizontalDistance = nodesWithCurrentMinDistance.reduce((minHorizontalDistance, node) => {
+    //         minHorizontalDistance = minHorizontalDistance < node.horizontalDistanceToEnd ? minHorizontalDistance : node.horizontalDistanceToEnd;
+
+    //         return minHorizontalDistance;
+    //     }, Infinity);
+
+    //     const shorterDistance = minHorizontalDistance < minVerticalDistance ? minHorizontalDistance : minVerticalDistance;
+
+    //     const minDistanceNode = minHorizontalDistance < minVerticalDistance ? nodesWithCurrentMinDistance.find(node => node.horizontalDistanceToEnd === shorterDistance) : nodesWithCurrentMinDistance.find(node => node.verticalDistanceToEnd === shorterDistance)
+    //     ;
+
+    //     return this.heap.indexOf(minDistanceNode);
+    // }
+
+    getMinVerticalDistanceNodes() {
         const currentMinDistance = this.heap[0].estimatedDistanceToEnd;
 
         const nodes = this.heap.slice();
-        const nodesWithCurrentMinDistance = [];
+        const minManhattanDistanceNodes = [];
 
         for (const node of nodes) {
-            if (node.estimatedDistanceToEnd === currentMinDistance) nodesWithCurrentMinDistance.push(node);
+            if (node.estimatedDistanceToEnd === currentMinDistance) minManhattanDistanceNodes.push(node);
         };
 
-        const minVerticalDistance = nodesWithCurrentMinDistance.reduce((minVerticalDistance, node) => {
+        const minVerticalDistance = minManhattanDistanceNodes.reduce((minVerticalDistance, node) => {
             minVerticalDistance = minVerticalDistance < node.verticalDistanceToEnd ? minVerticalDistance : node.verticalDistanceToEnd;
 
             return minVerticalDistance;
         }, Infinity);
 
-        const minHorizontalDistance = nodesWithCurrentMinDistance.reduce((minHorizontalDistance, node) => {
+        const minVerticalDistanceNodes = [];
+
+        for (const minManhattanDistanceNode of minManhattanDistanceNodes) {
+            if (minManhattanDistanceNode.verticalDistanceToEnd === minVerticalDistance) minVerticalDistanceNodes.push(minManhattanDistanceNode);
+        };
+
+        return minVerticalDistanceNodes;
+    }
+
+    getMinDistanceNodeIdx() {
+        const minVerticalDistanceNodes = this.getMinVerticalDistanceNodes();
+
+        const minHorizontalDistance = minVerticalDistanceNodes.reduce((minHorizontalDistance, node) => {
             minHorizontalDistance = minHorizontalDistance < node.horizontalDistanceToEnd ? minHorizontalDistance : node.horizontalDistanceToEnd;
 
             return minHorizontalDistance;
         }, Infinity);
 
-        const shorterDistance = minHorizontalDistance < minVerticalDistance ? minHorizontalDistance : minVerticalDistance;
-
-        const minDistanceNode = minHorizontalDistance < minVerticalDistance ? nodesWithCurrentMinDistance.find(node => node.horizontalDistanceToEnd === shorterDistance) : nodesWithCurrentMinDistance.find(node => node.verticalDistanceToEnd === shorterDistance)
-        ;
+        const minDistanceNode = minVerticalDistanceNodes.find(node => node.horizontalDistanceToEnd === minHorizontalDistance);
 
         return this.heap.indexOf(minDistanceNode);
     }

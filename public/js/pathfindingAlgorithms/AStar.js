@@ -26,8 +26,6 @@ class AStar extends PathfindingAlgorithm {
 
             const currentMinDistanceNode = nodesToVisit.remove();
 
-            if (visited.has(currentMinDistanceNode.id)) continue;
-
             visited.add(currentMinDistanceNode.id);
 
             await this.showRunningNode(currentMinDistanceNode);
@@ -37,7 +35,16 @@ class AStar extends PathfindingAlgorithm {
             const neighbors = this.getNeighboringNodes(currentMinDistanceNode, this.boardNodes);
 
             for (const neighbor of neighbors) {
+                if (stopAlgorithm) {
+                    changeStopAlgorithm(false);
+                    return;
+                }
+
                 if (neighbor.colorCode === WALL_NODE_COLOR_CODE || visited.has(neighbor.id)) continue;
+
+                visited.add(neighbor.id);
+
+                await this.showNeighborNode(neighbor);
 			
                 const tentativeDistanceToNeighbor = currentMinDistanceNode.distanceFromStart + 1;
                 
