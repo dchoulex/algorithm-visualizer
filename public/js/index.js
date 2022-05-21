@@ -24,17 +24,25 @@ const sortButton = document.getElementById("sort-btn");
 const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 
 // Pathfinding algorithm DOM elements
-const findPathButton = document.getElementById("find-path-btn");
 const clearBoardText = document.getElementById("clear-board-text");
 const clearPathText = document.getElementById("clear-path-text");
 const resetBoardText = document.getElementById("reset-board-text");
+const findPathButton = document.getElementById("find-path-btn");
+const helpButton = document.getElementById("help-btn");
 
 if (closeModalButton) {
     closeModalButton.addEventListener("click", () => {
-        modal.classList.toggle("hidden");
-        overlay.classList.toggle("hidden");
+        if (!modal.classList.contains("hidden")) modal.classList.toggle("hidden");
+        if (!overlay.classList.contains("hidden")) overlay.classList.toggle("hidden");
     })
 };
+
+if (overlay) {
+    overlay.addEventListener("click", () => {
+        if (!modal.classList.contains("hidden")) modal.classList.toggle("hidden");
+        if (!overlay.classList.contains("hidden")) overlay.classList.toggle("hidden");
+    })
+}
 
 if (speedButtons){
     speedButtons.forEach(button => {
@@ -81,4 +89,11 @@ if (clearPathText) {
 
 if (resetBoardText) {
     resetBoardText.addEventListener("click", resetBoard)
+}
+
+if (helpButton) {
+    helpButton.addEventListener("click", () => {
+        if (modal.classList.contains("hidden")) modal.classList.remove("hidden");
+        if (overlay.classList.contains("hidden")) overlay.classList.remove("hidden");
+    })
 }

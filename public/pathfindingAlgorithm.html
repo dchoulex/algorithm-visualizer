@@ -39,10 +39,10 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Depth first search</a>
-              <a class="dropdown-item" href="#">Breadth first search</a>
-              <a class="dropdown-item" href="#">Dijkstra's algorithm</a>
-              <a class="dropdown-item" href="#">A* algorithm</a>
+              <a class="dropdown-item">Depth first search</a>
+              <a class="dropdown-item">Breadth first search</a>
+              <a class="dropdown-item">Dijkstra's algorithm</a>
+              <a class="dropdown-item">A* algorithm</a>
             </div>
           </div>
         </nav>
@@ -66,6 +66,7 @@
         <p class="clear-board-text" id="clear-board-text">Clear board</p>
         <p class="reset-board-text" id="reset-board-text">Reset board</p>
         <button class="btn btn-light" id="find-path-btn">Find Path!</button>
+        <p class="help-btn" id="help-btn"></p>
       </div>
     </div>
   </header>
@@ -108,20 +109,24 @@
       <div class="carousel-inner">
 
         <div class="carousel-item active">
-          <h1 class="modal-title">Overview 1</h1>
-          <p class="modal-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-            occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
-          </p>
+          <h2 class="modal-title">Pathfinding Algorithm</h2>
+          <img class="modal-image" src="./img/test.png" alt="">
+          <div class="modal-text-container">
+            <p>
+              On this platform, you can visualize: 
+              <ul>
+                <li>Depth First Search (DFS)</li>
+                <li>Breadth First Search (BFS)</li>
+                <li>Dijkstra's algorithm</li>
+                <li>A* algorithm</li>
+              </ul>
+            </p>
+          </div>
         </div>
 
         <div class="carousel-item">
           <h1 class="modal-title">Overview 2</h1>
+
           <p class="modal-text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

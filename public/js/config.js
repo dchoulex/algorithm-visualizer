@@ -22,4 +22,4 @@ export const START_NODE_COLOR_CODE = 2;
 export const END_NODE_COLOR_CODE = 3;
 
 // Search speed
-export const SEARCH_DELAY = 100;
+export const SEARCH_DELAY = 10;
