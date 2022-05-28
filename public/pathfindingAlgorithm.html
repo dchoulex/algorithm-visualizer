@@ -71,7 +71,7 @@
     </div>
   </header>
 
-  <div id="color-code-bar">
+  <div class="color-code-bar" id="pathfinding-color-code-bar">
     <div class="color-code-group">
       <div class="color-code start-node"></div>
       <p class="color-label">Start node</p>
@@ -146,11 +146,10 @@
       <div class="carousel-inner">
 
         <div class="carousel-item active">
-          <h2 class="modal-title">Pathfinding Algorithm</h2>
-          <img class="modal-image" src="./img/test.png" alt="">
+          <h2 class="modal-title">Pathfinding Visualizer</h2>
           <div class="modal-text-container">
             <p>
-              On this platform, you can visualize: 
+              Welcome! On this platform, you can visualize: 
               <ul>
                 <li>Depth First Search (DFS)</li>
                 <li>Breadth First Search (BFS)</li>
@@ -161,31 +160,42 @@
           </div>
         </div>
 
-        <div class="carousel-item">
-          <h1 class="modal-title">Overview 2</h1>
+        <div class="carousel-item" id="create-walls-modal">
+          <h2 class="modal-title">Create walls</h2>
+
+          <video class="modal-video" id="create-walls-video" muted>
+            <source src="./img/create-walls.mp4" type="video/mp4">
+          </video>
 
           <p class="modal-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-            occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
+            You can create walls by click and drag on empty nodes.
+          </p>
+        </div>
+
+        <div class="carousel-item" id="delete-walls-modal">
+          <h2 class="modal-title">Delete walls</h2>
+
+          <video class="modal-video" id="delete-walls-video" muted>
+            <source src="./img/delete-walls.mp4" type="video/mp4">
+          </video>
+
+          <p class="modal-text">
+            You can delete walls by click and drag on wall nodes.
           </p>
         </div>
 
         <div class="carousel-item">
-          <h1 class="modal-title">Overview 3</h1>
-          <p class="modal-text">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
-          </p>
+          <h2 class="modal-title">Clear the board</h2>
+          <div class="modal-text-container">
+            <p>
+              You can clear the board by using one of these buttons: 
+              <ul>
+                <li><strong>Clear path</strong> - Clear shortest path nodes after visualization. Does not delete wall nodes.</li>
+                <li><strong>Clear board</strong> - Clear wall nodes and shortest path nodes.</li>
+                <li><strong>Reset board</strong> - Clear wall nodes and shortest path nodes. Also reset start node and end node position.</li>
+              </ul>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -193,8 +203,8 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
       </ol>
-
     </div>
 
     <a class="carousel-control-prev" href="#modal-carousel" role="button" data-slide="prev">

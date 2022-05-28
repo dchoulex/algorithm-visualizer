@@ -16,9 +16,9 @@ const findPathButton = document.getElementById("find-path-btn");
 const errorMessage = document.getElementById("error-message");
 
 export function search() {
-    const algorithmChose = chooseAlgorithmButtonText.innerText;
+    const selectedAlgorithm = chooseAlgorithmButtonText.innerText;
 
-    switch (algorithmChose) {
+    switch (selectedAlgorithm) {
         case "Choose algorithm":
             if (errorMessage.classList.contains("show")) break;
 
@@ -57,7 +57,7 @@ export function search() {
             break;
     }
 
-    if (algorithmChose === "Choose algorithm") return;
+    if (selectedAlgorithm === "Choose algorithm") return;
 
     disableButtons();
 

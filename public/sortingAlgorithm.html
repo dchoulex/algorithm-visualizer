@@ -50,16 +50,20 @@
           </div>
         </nav>
 
-        <a class="p-2 text-dark">Data range</a>
-        <div class="slider-container">
-          <input type="range" min="3" max="120" value="10" class="slider" id="data-range-slider">
+        <div class="data-range-group">
+          <p class="p-2 text-dark data-range-label">Data range</p>
+          <div class="data-range-container">
+            <input type="range" min="3" max="120" value="10" class="data-range-slider" id="data-range-slider">
+          </div>
         </div>
 
-        <a class="p-2 text-dark">Speed</a>
-        <div class="btn-group">
-          <button type="button" class="btn speed-btn" id="slow-speed-btn">Slow</button>
-          <button type="button" class="btn speed-btn" id="medium-speed-btn">Medium</button>
-          <button type="button" class="btn speed-btn" id="fast-speed-btn">Fast</button>
+        <div class="speed-btn-group">
+          <p class="p-2 text-dark speed-label">Speed</p>
+          <div class="btn-group">
+            <button type="button" class="btn speed-btn" id="slow-speed-btn">Slow</button>
+            <button type="button" class="btn speed-btn" id="medium-speed-btn">Medium</button>
+            <button type="button" class="btn speed-btn" id="fast-speed-btn">Fast</button>
+          </div>
         </div>
 
         <button class="btn btn-light" id="sort-btn">Let's sort!</button>
@@ -68,6 +72,10 @@
       </div>
     </div>
   </header>
+
+  <div class="color-code-bar hidden" id="sorting-color-code-bar">
+
+  </div>
 
   <div class="alert alert-warning alert-dismissible fade" role="alert" id="error-message">
     <strong>Please choose one algorithm!</strong> You can choose an algorithm from the dropdown button above.

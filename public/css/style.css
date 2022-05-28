@@ -52,6 +52,19 @@ ul {
 }
 
 /* Card */
+.algorithm-overview-img {
+    height: 230px;
+    border: solid 1px #F2F2F2;
+}
+
+#pathfinding-overview-img {
+    object-fit: cover;
+}
+
+#sorting-overview-img {
+    object-fit: contain;
+}
+
 .colored-section {
     background-color: #EAEAEA;
     margin: 0;
@@ -108,8 +121,7 @@ ul {
     position: relative;
     display: block;
     width: 700px;
-    height: 600px;
-    
+
     background-color: #fff;
     padding: 3rem 8rem 2rem;
     border-radius: 5px;
@@ -122,17 +134,16 @@ ul {
     margin-bottom: 1.5rem;
 }
 
-.modal-image {
+.modal-video {
     height: 200px;
     width: 500px;
+    margin-bottom: 1rem;
 }
 
 .modal-text-container {
-    padding-top: 2rem;
+    padding-left: 0.5rem;
     text-align: left !important;
     font-size: 16px;
-    height: 200px;
-    width: 500px;
 }
 
 .close-modal {
@@ -162,6 +173,7 @@ ul {
 
 .carousel-indicators {
     position: relative;
+    bottom: 10px;
     margin-top: 3rem;
     filter: invert(100%);
 }
@@ -199,6 +211,7 @@ ul {
 
 #help-btn {
     background-image: url("./../img/circle-question-solid.svg");
+    background-repeat: no-repeat;
     width: 25px;
     height: 25px;
     margin-right: 1rem;
@@ -216,6 +229,29 @@ ul {
 #help-btn:focus {
     border: none;
     outline: none;
+}
+
+.color-code-bar {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-code-group {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.color-code {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 10px !important;
+}
+
+.color-label {
+    margin: 0;
 }
 
 /* Choose algorithm btn  */
@@ -246,18 +282,12 @@ ul {
     box-shadow: none;
 }
 
-/* Data range slider  */
-.slider-container {
-    display: inline-block;
-}
-
-.slider {
-    position: relative;
-    top: 3px;
-    margin-left: 1rem;
-}
-
 /* Speed btn  */
+.speed-btn-group {
+    display: flex;
+    align-items: center;
+}
+
 #slow-speed-btn {
     margin-left: 1rem;
 }
@@ -282,7 +312,7 @@ ul {
 /* Restart btn */
 .restart-btn {
     float: right;
-    margin-left: 4rem;
+    margin-left: 1rem;
 }
 
 .restart-btn:hover {
@@ -302,13 +332,22 @@ ul {
 }
 
 /* Sorting algorithm */
-.slider-container {
-    margin-right: 1rem;
+.data-range-group {
+    display: flex;
+    align-items: center;
 }
 
-.slider {
-    position: relative;
-    top: 0.5%;
+.data-range-label {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.data-range-container {
+    float: right;
+}
+
+.data-range-slider {
     -webkit-appearance: none;
     width: 80%;
     height: 7px;
@@ -320,12 +359,12 @@ ul {
     transition: opacity .3s;
 }
 
-.slider:hover {
+.data-range:hover {
     opacity: 1;
     background: #fff;
 }
 
-.slider::-webkit-slider-thumb {
+.data-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 15px;
@@ -337,17 +376,54 @@ ul {
 
 #sort-btn {
     float: right;
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 #sort-btn:hover {
     background-color: #fbe055;
 }
 
+.compare-color-code {
+    background-color: #F1E243;
+}
+
+.swap-color-code {
+    background-color: #7CFC00;
+}
+
+.sorted-color-code {
+    background-color: #398AF4;
+}
+
+.heap-color-code {
+    background-color: #FF7F50;
+}
+
+.merge-color-code {
+    background-color: #842BFD;
+}
+
+.tentatively-sort-color-code {
+    background-color: #E2EDF9;
+}
+
+.replace-color-code {
+    background-color: #F365E2;
+}
+
+.pivot-color-code {
+    background-color: #DC143C;
+}
+
+.count-color-code {
+    background-color: #23AC7C;
+}
+
 /* Bar graph for sorting algorithm */
 @media (min-height: 690px) {
     #sorting-algorithm-visualizer-container {
         position: absolute;
+        bottom: 120px;
     }
 }
 
@@ -359,7 +435,7 @@ ul {
 
 #sorting-algorithm-visualizer-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 510px;
     width: 100%;
     margin: 0;
@@ -440,33 +516,7 @@ ul {
 }
 
 /* Board for pathfinding algorithm */
-#color-code-bar {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.color-code-group {
-    display: flex;
-    align-items: center;
-    margin: 0 20px;
-}
-
-.color-code {
-    width: 18px !important;
-    height: 18px !important;
-    margin-right: 10px !important;
-}
-
-.color-label {
-    margin: 0;
-}
-
 #pathfinding-algorithm-visualizer-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
     padding: 0;
     margin: 0;
 }

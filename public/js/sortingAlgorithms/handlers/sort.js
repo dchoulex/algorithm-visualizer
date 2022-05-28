@@ -19,9 +19,9 @@ const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 const errorMessage = document.getElementById("error-message");
 
 export function sort() {
-    const algorithmChose = chooseAlgorithmButtonText.innerText;
+    const selectedAlgorithm = chooseAlgorithmButtonText.innerText;
 
-    switch (algorithmChose) {
+    switch (selectedAlgorithm) {
         case "Choose algorithm":
             if (errorMessage.classList.contains("show")) break;
 
@@ -79,7 +79,7 @@ export function sort() {
             break;
     }
 
-    if (algorithmChose === "Choose algorithm") return;
+    if (selectedAlgorithm === "Choose algorithm") return;
 
     disableButtons();
 }
