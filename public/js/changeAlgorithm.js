@@ -8,7 +8,7 @@ let selectedAlgorithm;
 export function changeAlgorithm() {
     if (errorMessage.classList.contains("show")) {
         errorMessage.classList.remove("show");
-        errorMessage.classList.remove("hidden");
+        errorMessage.classList.toggle("hidden");
     }
 
     selectedAlgorithm = this.textContent;
@@ -19,7 +19,7 @@ export function changeAlgorithm() {
 
 function showColorCodeBar() {
     if (sortingColorCodeBar.classList.contains("hidden")) sortingColorCodeBar.classList.remove("hidden");
-    
+
     let colorCodes;
 
     switch (selectedAlgorithm) {
@@ -39,7 +39,7 @@ function showColorCodeBar() {
             break;
 
         case "Heap sort":
-            colorCodes = ["compare", "swap", "sorted", "heap", "sorted"];
+            colorCodes = ["compare", "swap", "heap", "sorted"];
 
             break;
 

@@ -68,7 +68,7 @@ if (restartBarGraphButton) {
 if (closeErrorMessageButton) {
     closeErrorMessageButton.addEventListener("click", () => {
         errorMessage.classList.remove("show");
-        errorMessage.classList.remove("hidden");
+        errorMessage.classList.toggle("hidden");
     })
 };
 

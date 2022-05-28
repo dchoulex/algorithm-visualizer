@@ -27,6 +27,8 @@ export function sort() {
 
             errorMessage.classList.toggle("show");
 
+            errorMessage.classList.remove("hidden");
+
             break;
 
         case "Bubble sort":

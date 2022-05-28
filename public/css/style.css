@@ -469,7 +469,7 @@ ul {
 }
 
 /* Pathfinding algorithm */
-#generate-maze-btn-group {
+/* #generate-maze-btn-group {
     border-color: #06375A;
     margin: 0;
     margin-left: 1rem;
@@ -481,7 +481,7 @@ ul {
 
 .generate-maze-inner {
     background-color: #fff;
-}
+} */
 
 #clear-board-btn, #clear-path-btn, #reset-board-btn {
     border: none;
