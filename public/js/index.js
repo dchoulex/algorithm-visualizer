@@ -37,13 +37,6 @@ if (closeModalButton) {
     })
 };
 
-if (overlay) {
-    overlay.addEventListener("click", () => {
-        if (!modal.classList.contains("hidden")) modal.classList.toggle("hidden");
-        if (!overlay.classList.contains("hidden")) overlay.classList.toggle("hidden");
-    })
-}
-
 if (speedButtons){
     speedButtons.forEach(button => {
         button.addEventListener("click", changeSpeed);
@@ -80,15 +73,15 @@ if (findPathButton) {
 }
 
 if (clearBoardButton) {
-    clearBoardText.addEventListener("click", clearBoard);
+    clearBoardButton.addEventListener("click", clearBoard);
 }
 
 if (clearPathButton) {
-    clearPathText.addEventListener("click", clearPath);
+    clearPathButton.addEventListener("click", clearPath);
 }
 
 if (resetBoardButton) {
-    resetBoardText.addEventListener("click", resetBoard)
+    resetBoardButton.addEventListener("click", resetBoard)
 }
 
 if (helpButton) {

@@ -42,11 +42,13 @@ class Board {
 
     calculateNumberOfRows() {
         const navBar = document.getElementById("navbar");
+        const colorCodeBar = document.getElementById("color-code-bar")
         const footer = document.getElementById("footer");
         const navBarHeight = navBar.getBoundingClientRect().height;
+        const colorCodeBarHeight = colorCodeBar.getBoundingClientRect().height;
         const footerHeight = footer.getBoundingClientRect().height;
 
-        const boardContainerHeight = window.innerHeight - navBarHeight - footerHeight;
+        const boardContainerHeight = window.innerHeight - navBarHeight - footerHeight - colorCodeBarHeight;
         const numberOfRows = Math.floor(boardContainerHeight / NODE_HEIGHT);
  
         return numberOfRows < MIN_NUMBER_OF_ROWS ? MIN_NUMBER_OF_ROWS : numberOfRows;

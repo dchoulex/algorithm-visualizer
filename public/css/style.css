@@ -190,6 +190,8 @@ ul {
     display: flex;
     padding: auto 1rem; 
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
 
     padding: 0.5rem;
     font-size: 1rem;
@@ -199,17 +201,21 @@ ul {
     background-image: url("./../img/circle-question-solid.svg");
     width: 25px;
     height: 25px;
+    margin-right: 1rem;
     border: none;
     background-color: inherit;
 
     padding: 0;
-    margin: 0;
-    margin-left: 1.5rem;
     user-select: none;
 }
 
 #help-btn:hover {
     cursor: pointer;
+}
+
+#help-btn:focus {
+    border: none;
+    outline: none;
 }
 
 /* Choose algorithm btn  */
@@ -336,14 +342,12 @@ ul {
 
 #sort-btn:hover {
     background-color: #fbe055;
-    /* color: #fff; */
 }
 
 /* Bar graph for sorting algorithm */
 @media (min-height: 690px) {
     #sorting-algorithm-visualizer-container {
         position: absolute;
-        bottom: 120px;
     }
 }
 
@@ -355,7 +359,7 @@ ul {
 
 #sorting-algorithm-visualizer-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     min-height: 510px;
     width: 100%;
     margin: 0;
@@ -420,6 +424,11 @@ ul {
     cursor: pointer;
 }
 
+#clear-board-btn:focus, #clear-path-btn:focus, #reset-board-btn:focus {
+    border: none;
+    outline: none;
+}
+
 #find-path-btn {
     margin-left: 2.5rem;
     margin-right: 1rem;
@@ -431,7 +440,32 @@ ul {
 }
 
 /* Board for pathfinding algorithm */
+#color-code-bar {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-code-group {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.color-code {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 10px !important;
+}
+
+.color-label {
+    margin: 0;
+}
+
 #pathfinding-algorithm-visualizer-container {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     padding: 0;
     margin: 0;
