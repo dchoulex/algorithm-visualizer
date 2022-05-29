@@ -108,7 +108,7 @@ if (modalNextButton) {
     modalNextButton.addEventListener("click", () => {
         const activeModalTitle = document.querySelector(".carousel-item.active .modal-title").textContent;
 
-        if (activeModalTitle === "Pathfinding Visualizer") createWallsVideo.play();
+        if (activeModalTitle === "Pathfinding Algorithm Visualizer") createWallsVideo.play();
         if (activeModalTitle === "Create walls") deleteWallsVideo.play();
     });
 }
