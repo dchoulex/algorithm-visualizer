@@ -7,7 +7,7 @@
 
 <h1 align="center"> Algorithm Visualizer </h1>
 
-This is a platform to learn how algorithm works by visualizing it.
+This is a platform to learn how algorithm works by visualizing it. Use Object-oriented design (OOD) to make it possible to add new feature in future.
 
 ## Features
 
