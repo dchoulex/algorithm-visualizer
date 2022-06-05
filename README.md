@@ -5,7 +5,7 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-# Algorithm Visualizer
+<h1 align="center"> Algorithm Visualizer </h1>
 
 This is a platform to learn how algorithm works by visualizing it.
 
@@ -22,14 +22,15 @@ This is a platform to learn how algorithm works by visualizing it.
 ## Demo
 
 - Pathfinding Algorithm Visualizer - _A\* algorithm_
-<figure class="video_container">
-  <iframe src="./public/img/pathfinding-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+
+<video controls>
+    <source src="./public/img/pathfinding-demo.mp4" type="video/mp4">
+</video>
 
 - Sorting Algorithm Visualizer - _Quick sort_
-<figure class="video_container">
-  <iframe src="./public/img/sorting-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+  <video controls>
+  <source src="./public/img/sorting-demo.mp4" type="video/mp4">
+  </video>
 
 ## Project setup
 
