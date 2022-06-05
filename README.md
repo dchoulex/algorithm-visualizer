@@ -23,12 +23,12 @@ This is a platform to learn how algorithm works by visualizing it.
 
 - Pathfinding Algorithm Visualizer (A\* algorithm)
 <figure>
-  <iframe src="./img/pathfinding-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
+  <iframe src="./public/img/pathfinding-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
 </figure>
 
 - Sorting Algorithm Visualizer (Quick sort)
 <figure>
-  <iframe src="./img/sorting-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
+  <iframe src="./public/img/sorting-demo.mp4" frameborder="0" allowfullscreen="true"> </iframe>
 </figure>
 
 ## Project setup
