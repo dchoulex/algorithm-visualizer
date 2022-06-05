@@ -22,15 +22,10 @@ This is a platform to learn how algorithm works by visualizing it.
 ## Demo
 
 - Pathfinding Algorithm Visualizer - _A\* algorithm_
-
-<video controls>
-    <source src="./public/img/pathfinding-demo.mp4" type="video/mp4">
-</video>
+  <img src="./readme_assets/pathfinding-demo.gif" width="100%">
 
 - Sorting Algorithm Visualizer - _Quick sort_
-  <video controls>
-  <source src="./public/img/sorting-demo.mp4" type="video/mp4">
-  </video>
+  <img src="./readme_assets/sorting-demo.gif" width="100%">
 
 ## Project setup
 
