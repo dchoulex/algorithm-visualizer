@@ -6,6 +6,8 @@ class InsertionSort extends SortingAlgorithm {
     }
     
     async sort() {
+        await this.tentativelySort(0);
+        
         for (let i = 1; i < this.barGraphElements.length; i++) {
             let j = i;
 

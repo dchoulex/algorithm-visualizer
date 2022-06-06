@@ -16,6 +16,8 @@ const errorMessage = document.getElementById("error-message");
 const closeErrorMessageButton = document.getElementById("error-message-close-btn");
 const modal = document.getElementById("modal");
 const overlay = document.getElementById("overlay");
+const modalPreviousButton = document.querySelector(".carousel-control-prev");
+const modalNextButton = document.querySelector(".carousel-control-next");
 
 // Sorting algorithm DOM elements 
 const dataRangeSlider = document.getElementById("data-range-slider");
@@ -24,15 +26,18 @@ const sortButton = document.getElementById("sort-btn");
 const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
 
 // Pathfinding algorithm DOM elements
+const clearBoardButton = document.getElementById("clear-board-btn");
+const clearPathButton = document.getElementById("clear-path-btn");
+const resetBoardButton = document.getElementById("reset-board-btn");
 const findPathButton = document.getElementById("find-path-btn");
-const clearBoardText = document.getElementById("clear-board-text");
-const clearPathText = document.getElementById("clear-path-text");
-const resetBoardText = document.getElementById("reset-board-text");
+const helpButton = document.getElementById("help-btn");
+const createWallsVideo = document.getElementById("create-walls-video");
+const deleteWallsVideo = document.getElementById("delete-walls-video");
 
 if (closeModalButton) {
     closeModalButton.addEventListener("click", () => {
-        modal.classList.toggle("hidden");
-        overlay.classList.toggle("hidden");
+        if (!modal.classList.contains("hidden")) modal.classList.toggle("hidden");
+        if (!overlay.classList.contains("hidden")) overlay.classList.toggle("hidden");
     })
 };
 
@@ -63,7 +68,7 @@ if (restartBarGraphButton) {
 if (closeErrorMessageButton) {
     closeErrorMessageButton.addEventListener("click", () => {
         errorMessage.classList.remove("show");
-        errorMessage.classList.remove("hidden");
+        errorMessage.classList.toggle("hidden");
     })
 };
 
@@ -71,14 +76,39 @@ if (findPathButton) {
     findPathButton.addEventListener("click", search);
 }
 
-if (clearBoardText) {
-    clearBoardText.addEventListener("click", clearBoard);
+if (clearBoardButton) {
+    clearBoardButton.addEventListener("click", clearBoard);
 }
 
-if (clearPathText) {
-    clearPathText.addEventListener("click", clearPath);
+if (clearPathButton) {
+    clearPathButton.addEventListener("click", clearPath);
 }
 
-if (resetBoardText) {
-    resetBoardText.addEventListener("click", resetBoard)
+if (resetBoardButton) {
+    resetBoardButton.addEventListener("click", resetBoard)
+}
+
+if (helpButton) {
+    helpButton.addEventListener("click", () => {
+        if (modal.classList.contains("hidden")) modal.classList.remove("hidden");
+        if (overlay.classList.contains("hidden")) overlay.classList.remove("hidden");
+    })
+}
+
+if (modalPreviousButton) {
+    modalPreviousButton.addEventListener("click", () => {
+        const activeModalTitle = document.querySelector(".carousel-item.active .modal-title").textContent;
+
+        if (activeModalTitle === "Delete walls") createWallsVideo.play();
+        if (activeModalTitle === "Clear the board") deleteWallsVideo.play();
+    });
+}
+
+if (modalNextButton) {
+    modalNextButton.addEventListener("click", () => {
+        const activeModalTitle = document.querySelector(".carousel-item.active .modal-title").textContent;
+
+        if (activeModalTitle === "Pathfinding Algorithm Visualizer") createWallsVideo.play();
+        if (activeModalTitle === "Create walls") deleteWallsVideo.play();
+    });
 }
