@@ -1,17 +1,17 @@
 version: 0.0
 os: linux
 files:
-  - source: /server.js
-    destination: /var/www/html/
+  - source: /
+    destination: /var/www/algorithmVisualizer
 hooks:
   BeforeInstall:
-    - location: scripts/install_dependencies
-      timeout: 300
+    - location: scripts/cleanup.sh
+      timeout: 180
       runas: root
-    - location: scripts/start_server
-      timeout: 300
+  AfterInstall:
+    - location: scripts/dependencies.sh
+      timeout: 180
       runas: root
-  ApplicationStop:
-    - location: scripts/stop_server
-      timeout: 300
+    - location: scripts/runApp.sh
+      timeout: 180
       runas: root
