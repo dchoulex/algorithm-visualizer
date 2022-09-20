@@ -5,7 +5,7 @@ import { board } from "../components/board.js";
 import DepthFirstSearch from "../depthFirstSearch.js";
 import BreadthFirstSearch from "../breadthFirstSearch.js";
 import Dijkstra from "../dijkstra.js";
-import AStar from "../aStar.js";
+import AStar from "../AStar.js";
 
 // DOM elements
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
