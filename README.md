@@ -10,6 +10,9 @@
 
 This is a platform to learn how algorithm works by visualizing it. Use object-oriented design (OOD) to make it possible to add new feature in future.
 
+You can check it out on the link below.
+http://algorithmvisualizer-env-1.eba-3kv4phmw.us-east-1.elasticbeanstalk.com/
+
 ## Features
 
 1. Pathfinding Algorithm Visualizer
