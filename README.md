@@ -12,7 +12,7 @@ This is a platform to learn how algorithm works by visualizing it. Use object-or
 
 You can check it out on the link below.
 
-http://algorithmvisualizer-env-1.eba-3kv4phmw.us-east-1.elasticbeanstalk.com/
+https://algorithm-visualizer-dac-6e9f9950d7f7.herokuapp.com/
 
 ## Features
 
