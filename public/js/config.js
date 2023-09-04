@@ -1,6 +1,6 @@
 // Bar graph
 export const BAR_MIN_HEIGHT = 20;
-export const BAR_MAX_HEIGHT = 500;
+export const BAR_MAX_HEIGHT = 450;
 export const MIN_NUMBER_OF_BARS = 3;
 export const MAX_NUMBER_OF_BARS = 120;
 
@@ -12,7 +12,7 @@ export const SLOW_SPEED_DELAY = 200;
 // Board node 
 export const NODE_WIDTH = 25;
 export const NODE_HEIGHT = 25;
-export const MIN_NUMBER_OF_ROWS = 20;
+export const MIN_NUMBER_OF_ROWS = 19;
 export const MIN_NUMBER_OF_COLS = 51;
 
 // Node color code
@@ -22,4 +22,4 @@ export const START_NODE_COLOR_CODE = 2;
 export const END_NODE_COLOR_CODE = 3;
 
 // Search speed
-export const SEARCH_DELAY = 100;
+export const SEARCH_DELAY = 10;

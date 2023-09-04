@@ -5,7 +5,7 @@ import { board } from "../components/board.js";
 import DepthFirstSearch from "../depthFirstSearch.js";
 import BreadthFirstSearch from "../breadthFirstSearch.js";
 import Dijkstra from "../dijkstra.js";
-import AStar from "../aStar.js";
+import AStar from "../AStar.js";
 
 // DOM elements
 const chooseAlgorithmButtonText = document.getElementById("choose-algorithm-btn-text");
@@ -16,9 +16,9 @@ const findPathButton = document.getElementById("find-path-btn");
 const errorMessage = document.getElementById("error-message");
 
 export function search() {
-    const algorithmChose = chooseAlgorithmButtonText.innerText;
+    const selectedAlgorithm = chooseAlgorithmButtonText.innerText;
 
-    switch (algorithmChose) {
+    switch (selectedAlgorithm) {
         case "Choose algorithm":
             if (errorMessage.classList.contains("show")) break;
 
@@ -57,7 +57,7 @@ export function search() {
             break;
     }
 
-    if (algorithmChose === "Choose algorithm") return;
+    if (selectedAlgorithm === "Choose algorithm") return;
 
     disableButtons();
 

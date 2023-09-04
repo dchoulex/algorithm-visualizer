@@ -7,12 +7,15 @@ const chooseAlgorithmButton = document.getElementById("choose-algorithm-btn");
 const dataRangeSlider = document.getElementById("data-range-slider");
 const sortButton = document.getElementById("sort-btn");
 const restartBarGraphButton = document.getElementById("restart-bar-graph-btn");
+const sortingColorCodeBar = document.getElementById("sorting-color-code-bar");
 
 export function restartBarGraph() {
     dataRangeSlider.value = 10;
     barGraph.update(dataRangeSlider.value);
 
     initializeButtons();
+
+    clearColorCodeBar();
 }
 
 function initializeButtons() {
@@ -32,4 +35,10 @@ function initializeButtons() {
 
     mediumSpeedButton.style.backgroundColor = "#525252"
     mediumSpeedButton.style.color = "#fff";
+}
+
+function clearColorCodeBar() {
+    sortingColorCodeBar.innerHTML = "";
+    
+    if (!sortingColorCodeBar.classList.contains("hidden")) sortingColorCodeBar.classList.toggle("hidden");
 }
